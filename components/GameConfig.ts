@@ -60,7 +60,39 @@ export const gameConfig = {
     { id: 'music', emoji: '🎵', label: 'Music & Audio', category: 'Entertainment', description: 'Music streaming, Afrobeats, or podcasts' },
     { id: 'translation', emoji: '🗣️', label: 'Language Help', category: 'Communication', description: 'Translation between English, Igbo, Yoruba, Hausa' },
     { id: 'weather', emoji: '🌤️', label: 'Weather Info', category: 'Information', description: 'Weather updates and farming forecasts' },
-    { id: 'news', emoji: '📰', label: 'News & Info', category: 'Information', description: 'Local news, sports updates, or community info' }
+    { id: 'news', emoji: '📰', label: 'News & Info', category: 'Information', description: 'Local news, sports updates, or community info' },
+    
+    // AI & Advanced Tech
+    { id: 'ai', emoji: '🤖', label: 'AI Assistant', category: 'AI', description: 'Smart AI that helps with tasks and answers questions' },
+    { id: 'chatbot', emoji: '💬', label: 'Chat Bot', category: 'AI', description: 'Automated customer service like bank chat support' },
+    { id: 'voiceassistant', emoji: '🎙️', label: 'Voice Assistant', category: 'AI', description: 'Voice commands like Siri or Google Assistant' },
+    { id: 'facerecognition', emoji: '👤', label: 'Face Recognition', category: 'AI', description: 'Login with your face like iPhone Face ID' },
+    { id: 'dataanalytics', emoji: '📊', label: 'Data Analytics', category: 'Data', description: 'Analyze business data to make smart decisions' },
+    { id: 'blockchain', emoji: '🔗', label: 'Blockchain', category: 'Crypto', description: 'Secure digital records like Bitcoin technology' },
+    { id: 'cryptocurrency', emoji: '₿', label: 'Cryptocurrency', category: 'Crypto', description: 'Digital money like Bitcoin or local crypto' },
+    
+    // IoT & Hardware
+    { id: 'iot', emoji: '📡', label: 'IoT Sensors', category: 'Hardware', description: 'Smart devices that connect to internet' },
+    { id: 'drones', emoji: '🚁', label: 'Drone Tech', category: 'Hardware', description: 'Flying drones for delivery or monitoring' },
+    { id: 'robotics', emoji: '🦾', label: 'Robotics', category: 'Hardware', description: 'Robots that help with work or manufacturing' },
+    { id: 'biometrics', emoji: '👆', label: 'Biometrics', category: 'Security', description: 'Fingerprint or eye scanning for security' },
+    { id: '3dprinting', emoji: '🖨️', label: '3D Printing', category: 'Manufacturing', description: 'Print physical objects from digital designs' },
+    
+    // Virtual & Augmented Reality
+    { id: 'vr', emoji: '🥽', label: 'Virtual Reality', category: 'VR/AR', description: 'Virtual worlds and experiences' },
+    { id: 'ar', emoji: '📳', label: 'Augmented Reality', category: 'VR/AR', description: 'Add digital info to real world like Instagram filters' },
+    
+    // Business & Development
+    { id: 'api', emoji: '🔌', label: 'API Integration', category: 'Development', description: 'Connect different apps and services together' },
+    { id: 'microservices', emoji: '⚙️', label: 'Microservices', category: 'Development', description: 'Break big apps into smaller, manageable pieces' },
+    { id: 'automation', emoji: '🔄', label: 'Automation', category: 'Business', description: 'Automatic processes that save time and money' },
+    { id: 'cybersecurity', emoji: '🛡️', label: 'Cybersecurity', category: 'Security', description: 'Protect against hackers and cyber attacks' },
+    
+    // Future Tech
+    { id: 'quantum', emoji: '⚛️', label: 'Quantum Computing', category: 'Future', description: 'Super powerful computers for complex problems' },
+    { id: 'edgecomputing', emoji: '📱', label: 'Edge Computing', category: 'Computing', description: 'Fast processing closer to users' },
+    { id: 'computervision', emoji: '👁️', label: 'Computer Vision', category: 'AI', description: 'Computers that can see and understand images' },
+    { id: 'nlp', emoji: '🗨️', label: 'Language AI', category: 'AI', description: 'AI that understands human language perfectly' }
   ] as Component[],
   
   prefixes: [

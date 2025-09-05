@@ -42,6 +42,7 @@ const IdeaBuilder: React.FC = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
+  const [activeShareDropdown, setActiveShareDropdown] = useState<number | null>(null);
 
   // Detect touch device on component mount
   useEffect(() => {
@@ -81,6 +82,20 @@ const IdeaBuilder: React.FC = () => {
     });
     setSelectedComponents([]);
   };
+
+  const toggleShareDropdown = (ideaId: number) => {
+    setActiveShareDropdown(activeShareDropdown === ideaId ? null : ideaId);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveShareDropdown(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const handleDragStart = (e: React.DragEvent, componentId: string) => {
     setDraggedComponent(componentId);
@@ -450,41 +465,68 @@ const IdeaBuilder: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="share-section">
-                    <div className="share-header">
-                      <span className="share-icon">🚀</span>
-                      <div className="share-label">Share your startup</div>
-                    </div>
-                    <div className="share-buttons-compact">
-                      <button 
-                        className="share-button-compact whatsapp" 
-                        onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
-                        title="Share on WhatsApp"
-                      >
-                        WhatsApp
-                      </button>
-                      <button 
-                        className="share-button-compact twitter" 
-                        onClick={() => shareToTwitter(idea.name, idea.tagline)}
-                        title="Share on Twitter"
-                      >
-                        Twitter
-                      </button>
-                      <button 
-                        className="share-button-compact facebook" 
-                        onClick={() => shareToFacebook(idea.name, idea.tagline)}
-                        title="Share on Facebook"
-                      >
-                        Facebook
-                      </button>
-                      <button 
-                        className="share-button-compact instagram" 
-                        onClick={() => shareToInstagram(idea.name, idea.tagline)}
-                        title="Copy for Instagram"
-                      >
-                        Instagram
-                      </button>
-                    </div>
+                  <div className="share-dropdown-container">
+                    <button 
+                      className="share-trigger-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleShareDropdown(idea.id);
+                      }}
+                      title="Share this startup"
+                    >
+                      <span className="share-trigger-icon">↗</span>
+                      <span>Share</span>
+                    </button>
+                    
+                    {activeShareDropdown === idea.id && (
+                      <div className="share-dropdown" onClick={(e) => e.stopPropagation()}>
+                        <div className="share-dropdown-header">
+                          <span className="share-dropdown-title">Share {idea.name}</span>
+                        </div>
+                        <div className="share-options">
+                          <button 
+                            className="share-option whatsapp" 
+                            onClick={() => {
+                              shareToWhatsApp(idea.name, idea.tagline);
+                              setActiveShareDropdown(null);
+                            }}
+                          >
+                            <span className="share-platform-icon">💬</span>
+                            <span>WhatsApp</span>
+                          </button>
+                          <button 
+                            className="share-option twitter" 
+                            onClick={() => {
+                              shareToTwitter(idea.name, idea.tagline);
+                              setActiveShareDropdown(null);
+                            }}
+                          >
+                            <span className="share-platform-icon">🐦</span>
+                            <span>Twitter</span>
+                          </button>
+                          <button 
+                            className="share-option facebook" 
+                            onClick={() => {
+                              shareToFacebook(idea.name, idea.tagline);
+                              setActiveShareDropdown(null);
+                            }}
+                          >
+                            <span className="share-platform-icon">📘</span>
+                            <span>Facebook</span>
+                          </button>
+                          <button 
+                            className="share-option instagram" 
+                            onClick={() => {
+                              shareToInstagram(idea.name, idea.tagline);
+                              setActiveShareDropdown(null);
+                            }}
+                          >
+                            <span className="share-platform-icon">📸</span>
+                            <span>Instagram</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
