@@ -414,56 +414,74 @@ const IdeaBuilder: React.FC = () => {
               </div>
             ) : (
               gameState.generatedIdeas.slice(0, 5).map(idea => (
-                <div key={idea.id} className="idea-card">
-                  <div className="idea-header">
-                    <div className="idea-icon">💡</div>
-                    <div className="idea-name">{idea.name}</div>
+                <div key={idea.id} className="idea-card-compact">
+                  <div className="idea-main-content">
+                    <div className="idea-header-compact">
+                      <div className="idea-icon">💡</div>
+                      <div className="idea-title-section">
+                        <div className="idea-name">{idea.name}</div>
+                        <div className="idea-tagline">&ldquo;{idea.tagline}&rdquo;</div>
+                      </div>
+                    </div>
+                    
+                    <div className="idea-description-compact">{idea.description}</div>
+                    
+                    <div className="idea-stats-compact">
+                      <div className="idea-stat-compact valuation">
+                        <span className="stat-icon">💰</span>
+                        <span className="stat-label">Valuation</span>
+                        <span className="stat-value-compact">₦{formatCurrency(idea.valuation)}</span>
+                      </div>
+                      <div className="idea-stat-compact jollof">
+                        <span className="stat-icon">🍛</span>
+                        <span className="stat-label">Jollof Rating</span>
+                        <span className="stat-value-compact">{idea.jollofRating}/10</span>
+                      </div>
+                      <div className="idea-stat-compact funding">
+                        <span className="stat-icon">📈</span>
+                        <span className="stat-label">Stage</span>
+                        <span className="stat-value-compact">{idea.fundingStage}</span>
+                      </div>
+                      <div className="idea-stat-compact market">
+                        <span className="stat-icon">🎯</span>
+                        <span className="stat-label">Market Size</span>
+                        <span className="stat-value-compact">{idea.marketSize}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="idea-tagline">&ldquo;{idea.tagline}&rdquo;</div>
-                  <div className="idea-description">{idea.description}</div>
-                  <div className="idea-stats">
-                    <div className="idea-stat">
-                      <span className="idea-stat-icon">💰</span>
-                      <span>₦{formatCurrency(idea.valuation)}</span>
+                  
+                  <div className="share-section">
+                    <div className="share-label">Share your startup:</div>
+                    <div className="share-buttons-compact">
+                      <button 
+                        className="share-button-compact whatsapp" 
+                        onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
+                        title="Share on WhatsApp"
+                      >
+                        WhatsApp
+                      </button>
+                      <button 
+                        className="share-button-compact twitter" 
+                        onClick={() => shareToTwitter(idea.name, idea.tagline)}
+                        title="Share on Twitter"
+                      >
+                        Twitter
+                      </button>
+                      <button 
+                        className="share-button-compact facebook" 
+                        onClick={() => shareToFacebook(idea.name, idea.tagline)}
+                        title="Share on Facebook"
+                      >
+                        Facebook
+                      </button>
+                      <button 
+                        className="share-button-compact instagram" 
+                        onClick={() => shareToInstagram(idea.name, idea.tagline)}
+                        title="Copy for Instagram"
+                      >
+                        Instagram
+                      </button>
                     </div>
-                    <div className="idea-stat">
-                      <span className="idea-stat-icon">🍛</span>
-                      <span>{idea.jollofRating}/10 Jollof</span>
-                    </div>
-                    <div className="idea-stat">
-                      <span className="idea-stat-icon">📈</span>
-                      <span>{idea.fundingStage}</span>
-                    </div>
-                    <div className="idea-stat">
-                      <span className="idea-stat-icon">🎯</span>
-                      <span>{idea.marketSize}</span>
-                    </div>
-                  </div>
-                  <div className="share-buttons">
-                    <button 
-                      className="share-button share-whatsapp" 
-                      onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
-                    >
-                      Share on WhatsApp
-                    </button>
-                    <button 
-                      className="share-button share-twitter" 
-                      onClick={() => shareToTwitter(idea.name, idea.tagline)}
-                    >
-                      Share on Twitter
-                    </button>
-                    <button 
-                      className="share-button share-facebook" 
-                      onClick={() => shareToFacebook(idea.name, idea.tagline)}
-                    >
-                      Share on Facebook
-                    </button>
-                    <button 
-                      className="share-button share-instagram" 
-                      onClick={() => shareToInstagram(idea.name, idea.tagline)}
-                    >
-                      Copy for Instagram
-                    </button>
                   </div>
                 </div>
               ))

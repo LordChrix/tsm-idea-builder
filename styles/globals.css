@@ -839,8 +839,6 @@ body::before {
     border-radius: 20px;
     padding: 1.5rem;
     box-shadow: var(--shadow-xl);
-    max-height: 600px;
-    overflow-y: auto;
 }
 
 .idea-card {
@@ -1548,6 +1546,70 @@ button:focus-visible,
         font-size: 0.9rem;
         padding: 0.75rem;
     }
+    
+    /* Mobile Compact Cards */
+    .idea-card-compact {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+    
+    .idea-header-compact {
+        gap: 0.75rem;
+    }
+    
+    .idea-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    
+    .idea-name {
+        font-size: 1.2rem;
+    }
+    
+    .idea-tagline {
+        font-size: 0.9rem;
+    }
+    
+    .idea-description-compact {
+        font-size: 0.9rem;
+    }
+    
+    .idea-stats-compact {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    
+    .idea-stat-compact {
+        padding: 0.625rem;
+    }
+    
+    .idea-stat-compact .stat-icon {
+        font-size: 1.1rem;
+    }
+    
+    .idea-stat-compact .stat-label {
+        font-size: 0.65rem;
+    }
+    
+    .idea-stat-compact .stat-value-compact {
+        font-size: 0.8rem;
+    }
+    
+    .share-section {
+        min-width: auto;
+    }
+    
+    .share-buttons-compact {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.375rem;
+    }
+    
+    .share-button-compact {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
 }
 
 /* Improved Card Hover Effects */
@@ -1596,6 +1658,190 @@ button:focus-visible,
 .share-button:active::before {
     width: 200px;
     height: 200px;
+}
+
+/* Compact Idea Card Layout */
+.idea-card-compact {
+    background: linear-gradient(135deg, var(--gray-50), var(--white));
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.idea-card-compact:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.idea-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.idea-header-compact {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.idea-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), #0095d4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.idea-title-section {
+    flex: 1;
+}
+
+.idea-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0 0 0.25rem 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.idea-tagline {
+    font-style: italic;
+    color: var(--gray-600);
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.idea-description-compact {
+    color: var(--gray-700);
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.idea-stats-compact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.idea-stat-compact {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.idea-stat-compact:hover {
+    background: var(--white);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.idea-stat-compact .stat-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.idea-stat-compact .stat-label {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.idea-stat-compact .stat-value-compact {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.share-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 180px;
+}
+
+.share-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+.share-buttons-compact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.share-button-compact {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-700);
+    padding: 0.625rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.share-button-compact:hover {
+    background: var(--white);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.share-button-compact.whatsapp:hover {
+    background: #25d366;
+    border-color: #25d366;
+    color: var(--white);
+}
+
+.share-button-compact.twitter:hover {
+    background: #1da1f2;
+    border-color: #1da1f2;
+    color: var(--white);
+}
+
+.share-button-compact.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+    color: var(--white);
+}
+
+.share-button-compact.instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: #bc1888;
+    color: var(--white);
 }
 
 /* Enhanced Stat Cards */
