@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { gameConfig } from './GameConfig';
 import useGameLogic from '../hooks/useGameLogic';
 import LottieIcon from './LottieIcon';
+import TechIcons from './TechIcons';
 
 interface AchievementModalProps {
   show: boolean;
@@ -177,6 +178,26 @@ const IdeaBuilder: React.FC = () => {
     return amount.toString();
   };
 
+  const getComponentIcon = (componentId: string) => {
+    const iconMap: { [key: string]: keyof typeof TechIcons } = {
+      'mobileapp': 'mobile',
+      'onlinepayment': 'payment',
+      'delivery': 'delivery',
+      'socialmedia': 'social',
+      'onlineshopping': 'shopping',
+      'cloudbackup': 'cloud',
+      'ai': 'ai',
+      'blockchain': 'blockchain',
+      'cryptocurrency': 'blockchain',
+      'vr': 'vr',
+      'ar': 'vr',
+      'drones': 'drone'
+    };
+
+    const IconComponent = TechIcons[iconMap[componentId] || 'default'];
+    return <IconComponent size={32} className="tech-icon" />;
+  };
+
   return (
     <div className="container">
       {/* Header */}
@@ -194,7 +215,7 @@ const IdeaBuilder: React.FC = () => {
         </div>
         <p className="tagline">Build Your Next Billion Naira Tech Startup!</p>
         <p className="sub-tagline">
-          <span>🇳🇬 From Lagos to the World</span>
+          <span>🇳🇬 From Abuja to the World</span>
           <div className="header-controls">
             <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
               <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
@@ -322,7 +343,9 @@ const IdeaBuilder: React.FC = () => {
                 title={component.description}
               >
                 <div className="component-category">{component.category}</div>
-                <div className="component-emoji">{component.emoji}</div>
+                <div className="component-icon-wrapper">
+                  {getComponentIcon(component.id)}
+                </div>
                 <div className="component-label">{component.label}</div>
                 <div className="component-description">{component.description}</div>
                 {isTouchDevice && (
