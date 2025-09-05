@@ -65,8 +65,18 @@ const IdeaBuilder: React.FC = () => {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    
+    // Add visual feedback to stats
+    const statElements = document.querySelectorAll('.stat-value');
+    statElements.forEach(el => el.classList.add('updating'));
+    
     await generateStartupIdea();
     setIsGenerating(false);
+    
+    // Remove visual feedback
+    setTimeout(() => {
+      statElements.forEach(el => el.classList.remove('updating'));
+    }, 500);
     
     // Check for achievements
     const achievement = gameConfig.achievements.find(a => a.count === gameState.stats.ideasCount + 1);
@@ -93,10 +103,10 @@ const IdeaBuilder: React.FC = () => {
         <div className="logo-container">
           <div className="logo-icon">
             <LottieIcon 
-              src="https://lottie.host/87f6e3a8-a28b-4e4d-8b7c-9d6f2e3a1b4c/GjKoLwXtYp.json" 
+              src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" 
               width={60} 
               height={60}
-              fallback={<span>🚀</span>}
+              fallback={<span className="animate-bounce">🚀</span>}
             />
           </div>
           <h1 className="logo-text">TSM Idea Builder</h1>
@@ -117,7 +127,7 @@ const IdeaBuilder: React.FC = () => {
           <div className="stat-value">
             <span className="stat-icon animate-pulse">
               <LottieIcon 
-                src="https://lottie.host/b5c4d6e8-f9a1-2b3c-4d5e-6f7a8b9c0d1e/LmNoPqRsT.json"
+                src="https://assets3.lottiefiles.com/packages/lf20_qp1q7mct.json"
                 width={32}
                 height={32}
                 fallback={<span>💡</span>}
@@ -131,7 +141,7 @@ const IdeaBuilder: React.FC = () => {
           <div className="stat-value">
             <span className="stat-icon animate-bounce">
               <LottieIcon 
-                src="https://lottie.host/c7d8e9f0-a1b2-c3d4-e5f6-7890abcdef12/UvWxYzAb.json"
+                src="https://assets9.lottiefiles.com/packages/lf20_06a6pf9i.json"
                 width={32}
                 height={32}
                 fallback={<span>₦</span>}
@@ -145,7 +155,7 @@ const IdeaBuilder: React.FC = () => {
           <div className="stat-value">
             <span className="stat-icon animate-wiggle">
               <LottieIcon 
-                src="https://lottie.host/f2g3h4i5-j6k7-l8m9-n0o1-p2q3r4s5t6u7/CdEfGh.json"
+                src="https://assets4.lottiefiles.com/packages/lf20_1pxqjqps.json"
                 width={32}
                 height={32}
                 fallback={<span>🍛</span>}
@@ -159,7 +169,7 @@ const IdeaBuilder: React.FC = () => {
           <div className="stat-value">
             <span className="stat-icon animate-grow">
               <LottieIcon 
-                src="https://lottie.host/h8i9j0k1-l2m3-n4o5-p6q7-r8s9t0u1v2w3/IjKlMn.json"
+                src="https://assets1.lottiefiles.com/packages/lf20_9wpyhdzo.json"
                 width={32}
                 height={32}
                 fallback={<span>📈</span>}
@@ -175,7 +185,7 @@ const IdeaBuilder: React.FC = () => {
         <h2 className="instructions-title">
           <span className="animate-spin-slow">
             <LottieIcon 
-              src="https://lottie.host/n4o5p6q7-r8s9-t0u1-v2w3-x4y5z6a7b8c9/OpQrSt.json"
+              src="https://assets7.lottiefiles.com/packages/lf20_khzniaya.json"
               width={24}
               height={24}
               fallback={<span>🎮</span>}
@@ -265,13 +275,13 @@ const IdeaBuilder: React.FC = () => {
           </div>
           <div className="action-buttons">
             <button 
-              className="btn btn-primary" 
+              className={`btn btn-primary ${isGenerating ? 'btn-generating' : ''}`}
               disabled={gameState.droppedComponents.length < 2 || isGenerating}
               onClick={handleGenerate}
             >
-              <span>{isGenerating ? 'Generating...' : 'Generate Startup'}</span>
+              <span>{isGenerating ? 'Creating Your Startup...' : 'Generate Startup Idea'}</span>
               {isGenerating ? (
-                <span className="loading"></span>
+                <span className="loading-spinner"></span>
               ) : (
                 <span>🚀</span>
               )}
@@ -324,31 +334,54 @@ const IdeaBuilder: React.FC = () => {
                       <span>{idea.marketSize}</span>
                     </div>
                   </div>
-                  <div className="share-buttons">
-                    <button 
-                      className="share-button share-whatsapp" 
-                      onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
-                    >
-                      WhatsApp
-                    </button>
-                    <button 
-                      className="share-button share-twitter" 
-                      onClick={() => shareToTwitter(idea.name, idea.tagline)}
-                    >
-                      Twitter
-                    </button>
-                    <button 
-                      className="share-button share-facebook" 
-                      onClick={() => shareToFacebook(idea.name, idea.tagline)}
-                    >
-                      Facebook
-                    </button>
-                    <button 
-                      className="share-button share-instagram" 
-                      onClick={() => shareToInstagram(idea.name, idea.tagline)}
-                    >
-                      Instagram
-                    </button>
+                  <div className="share-section">
+                    <div className="share-title">💫 Share Your Startup Idea:</div>
+                    <div className="share-buttons">
+                      <button 
+                        className="share-button share-whatsapp" 
+                        onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
+                        title="Share on WhatsApp with friends and family"
+                      >
+                        <span className="share-icon">📱</span>
+                        <span className="share-text">
+                          <span className="share-platform">WhatsApp</span>
+                          <span className="share-description">Friends & Family</span>
+                        </span>
+                      </button>
+                      <button 
+                        className="share-button share-twitter" 
+                        onClick={() => shareToTwitter(idea.name, idea.tagline)}
+                        title="Tweet your startup idea to the world"
+                      >
+                        <span className="share-icon">🐦</span>
+                        <span className="share-text">
+                          <span className="share-platform">Twitter</span>
+                          <span className="share-description">Tech Community</span>
+                        </span>
+                      </button>
+                      <button 
+                        className="share-button share-facebook" 
+                        onClick={() => shareToFacebook(idea.name, idea.tagline)}
+                        title="Post on Facebook timeline"
+                      >
+                        <span className="share-icon">👥</span>
+                        <span className="share-text">
+                          <span className="share-platform">Facebook</span>
+                          <span className="share-description">Social Network</span>
+                        </span>
+                      </button>
+                      <button 
+                        className="share-button share-instagram" 
+                        onClick={() => shareToInstagram(idea.name, idea.tagline)}
+                        title="Copy text for Instagram post or story"
+                      >
+                        <span className="share-icon">📸</span>
+                        <span className="share-text">
+                          <span className="share-platform">Instagram</span>
+                          <span className="share-description">Copy Text</span>
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))

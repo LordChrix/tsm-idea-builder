@@ -735,26 +735,65 @@ body::before {
     font-size: 1.25rem;
 }
 
+.share-section {
+    background: var(--gray-50);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid var(--gray-200);
+}
+
+.share-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
 .share-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
-    margin-top: 1rem;
 }
 
 .share-button {
     border: none;
-    padding: 0.5rem;
-    border-radius: 8px;
+    padding: 0.75rem 0.5rem;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: 600;
-    display: inline-flex;
+    font-weight: 500;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     transition: all 0.3s ease;
     color: var(--white);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.share-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.share-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.share-platform {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.share-description {
+    font-size: 0.7rem;
+    opacity: 0.9;
+    font-weight: 400;
 }
 
 .share-button:hover {
@@ -810,6 +849,38 @@ body::before {
     border-radius: 50%;
     border-top-color: transparent;
     animation: spin 0.8s linear infinite;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 2px solid var(--white);
+    animation: spin 1s linear infinite;
+}
+
+.btn-generating {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-generating::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 @keyframes spin {
@@ -940,5 +1011,214 @@ body::before {
     100% {
         transform: translateY(100vh) rotateZ(360deg);
         opacity: 0;
+    }
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-notification.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-content {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 300px;
+}
+
+.toast-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+/* Enhanced Drag Feedback */
+.component-card {
+    position: relative;
+}
+
+.component-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary), #0095d4);
+    opacity: 0;
+    border-radius: 12px;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.component-card:hover::before {
+    opacity: 0.1;
+}
+
+.component-card.dragging::before {
+    opacity: 0.3;
+}
+
+/* Better Drop Zone Feedback */
+.drop-zone {
+    position: relative;
+}
+
+.drop-zone::after {
+    content: 'Drop your components here to start building! 🚀';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gray-400);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    max-width: 250px;
+}
+
+.drop-zone.drag-over::after {
+    opacity: 1;
+    color: var(--primary);
+}
+
+.drop-zone:not(:empty)::after {
+    display: none;
+}
+
+/* Enhanced Button Interactions */
+.btn {
+    position: relative;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn:disabled {
+    transform: none;
+}
+
+/* Improved Card Hover Effects */
+.idea-card {
+    cursor: pointer;
+    position: relative;
+}
+
+.idea-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary), #0095d4);
+    opacity: 0;
+    border-radius: 16px;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.idea-card:hover::before {
+    opacity: 0.05;
+}
+
+/* Share Button Enhanced Effects */
+.share-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.share-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.share-button:active::before {
+    width: 200px;
+    height: 200px;
+}
+
+/* Enhanced Stat Cards */
+.stat-card {
+    cursor: default;
+    position: relative;
+    background: linear-gradient(135deg, var(--white), var(--gray-50));
+}
+
+.stat-card:hover {
+    background: var(--white);
+}
+
+.stat-value {
+    position: relative;
+    z-index: 2;
+}
+
+/* Loading Pulse for Stats */
+.stat-value.updating {
+    animation: statPulse 0.5s ease-in-out;
+}
+
+@keyframes statPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Mobile Enhancements */
+@media (max-width: 768px) {
+    .toast-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    
+    .toast-content {
+        min-width: auto;
+    }
+    
+    .share-buttons {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .share-button {
+        padding: 1rem;
     }
 }

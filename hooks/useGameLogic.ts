@@ -262,11 +262,38 @@ const useGameLogic = () => {
 
   const shareToInstagram = useCallback((name: string, tagline: string) => {
     const text = `Just created ${name} on TSM Idea Builder! ${tagline} 🚀🇳🇬\n\n#NigerianTech #StartupIdeas #TechInnovation\n\nBuild your own: ${currentUrl}`;
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Text copied to clipboard! Paste it in your Instagram post or story.');
-    }).catch(() => {
+    
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Create a nice toast notification instead of alert
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.innerHTML = `
+          <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message">Text copied! Paste it in your Instagram post or story.</span>
+          </div>
+        `;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.classList.add('toast-show');
+        }, 100);
+        
+        setTimeout(() => {
+          toast.classList.remove('toast-show');
+          setTimeout(() => {
+            if (toast.parentNode) {
+              document.body.removeChild(toast);
+            }
+          }, 300);
+        }, 3000);
+      }).catch(() => {
+        prompt('Copy this text for Instagram:', text);
+      });
+    } else {
       prompt('Copy this text for Instagram:', text);
-    });
+    }
   }, [currentUrl]);
 
   // Save game state whenever stats change
