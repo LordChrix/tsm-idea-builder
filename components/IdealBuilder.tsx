@@ -3,6 +3,7 @@ import { gameConfig } from './GameConfig';
 import useGameLogic from '../hooks/useGameLogic';
 import LottieIcon from './LottieIcon';
 import TechIcons from './TechIcons';
+import SocialIcons from './SocialIcons';
 
 interface AchievementModalProps {
   show: boolean;
@@ -517,18 +518,18 @@ const IdeaBuilder: React.FC = () => {
                               setActiveShareDropdown(null);
                             }}
                           >
-                            <span className="share-platform-icon">💬</span>
+                            <SocialIcons.whatsapp size={18} className="share-platform-icon" />
                             <span>WhatsApp</span>
                           </button>
                           <button 
-                            className="share-option twitter" 
+                            className="share-option x-twitter" 
                             onClick={() => {
                               shareToTwitter(idea.name, idea.tagline);
                               setActiveShareDropdown(null);
                             }}
                           >
-                            <span className="share-platform-icon">🐦</span>
-                            <span>Twitter</span>
+                            <SocialIcons.x size={18} className="share-platform-icon" />
+                            <span>X</span>
                           </button>
                           <button 
                             className="share-option facebook" 
@@ -537,7 +538,7 @@ const IdeaBuilder: React.FC = () => {
                               setActiveShareDropdown(null);
                             }}
                           >
-                            <span className="share-platform-icon">📘</span>
+                            <SocialIcons.facebook size={18} className="share-platform-icon" />
                             <span>Facebook</span>
                           </button>
                           <button 
@@ -547,7 +548,7 @@ const IdeaBuilder: React.FC = () => {
                               setActiveShareDropdown(null);
                             }}
                           >
-                            <span className="share-platform-icon">📸</span>
+                            <SocialIcons.instagram size={18} className="share-platform-icon" />
                             <span>Instagram</span>
                           </button>
                         </div>

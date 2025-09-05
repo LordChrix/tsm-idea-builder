@@ -11,26 +11,17 @@ const TechIcons = {
     <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
       <defs>
         <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#f093fb', stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: '#1a73e8', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#34a853', stopOpacity: 1 }} />
         </linearGradient>
-        <filter id="aiGlow">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-          <feMerge> 
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
       </defs>
-      <circle cx="50" cy="50" r="45" fill="url(#aiGrad)" opacity="0.15"/>
-      <path d="M30 30 L50 20 L70 30 L70 50 L50 60 L30 50 Z" stroke="url(#aiGrad)" strokeWidth="2.5" fill="rgba(102, 126, 234, 0.1)" filter="url(#aiGlow)"/>
-      <circle cx="50" cy="40" r="6" fill="url(#aiGrad)" filter="url(#aiGlow)"/>
-      <path d="M42 50 L46 54 L54 46 M58 50 L54 54 L46 46" stroke="url(#aiGrad)" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="35" cy="35" r="3" fill="url(#aiGrad)" opacity="0.8"/>
-      <circle cx="65" cy="35" r="3" fill="url(#aiGrad)" opacity="0.8"/>
-      <circle cx="40" cy="65" r="2" fill="url(#aiGrad)" opacity="0.6"/>
-      <circle cx="60" cy="65" r="2" fill="url(#aiGrad)" opacity="0.6"/>
+      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#aiGrad)" opacity="0.1"/>
+      <circle cx="50" cy="35" r="12" fill="url(#aiGrad)" opacity="0.8"/>
+      <rect x="25" y="55" width="50" height="4" rx="2" fill="url(#aiGrad)" opacity="0.6"/>
+      <rect x="25" y="65" width="35" height="4" rx="2" fill="url(#aiGrad)" opacity="0.4"/>
+      <rect x="25" y="75" width="40" height="4" rx="2" fill="url(#aiGrad)" opacity="0.3"/>
+      <circle cx="30" cy="35" r="2" fill="url(#aiGrad)"/>
+      <circle cx="70" cy="35" r="2" fill="url(#aiGrad)"/>
     </svg>
   ),
 
@@ -38,28 +29,19 @@ const TechIcons = {
     <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
       <defs>
         <linearGradient id="blockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#f093fb', stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: '#f5576c', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: '#ea4335', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#fbbc04', stopOpacity: 1 }} />
         </linearGradient>
-        <filter id="blockGlow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-          <feMerge> 
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
       </defs>
-      <circle cx="50" cy="50" r="42" fill="url(#blockGrad)" opacity="0.1"/>
-      <rect x="18" y="18" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
-      <rect x="60" y="18" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
-      <rect x="18" y="60" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
-      <rect x="60" y="60" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
-      <path d="M40 29 L60 29 M40 71 L60 71 M29 40 L29 60 M71 40 L71 60" stroke="url(#blockGrad)" strokeWidth="3" strokeLinecap="round"/>
-      <circle cx="29" cy="29" r="3" fill="url(#blockGrad)"/>
-      <circle cx="71" cy="29" r="3" fill="url(#blockGrad)"/>
-      <circle cx="29" cy="71" r="3" fill="url(#blockGrad)"/>
-      <circle cx="71" cy="71" r="3" fill="url(#blockGrad)"/>
+      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#blockGrad)" opacity="0.1"/>
+      <rect x="20" y="20" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
+      <rect x="60" y="20" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
+      <rect x="20" y="60" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
+      <rect x="60" y="60" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
+      <rect x="45" y="27" width="10" height="3" fill="url(#blockGrad)" rx="1.5"/>
+      <rect x="45" y="70" width="10" height="3" fill="url(#blockGrad)" rx="1.5"/>
+      <rect x="27" y="45" width="3" height="10" fill="url(#blockGrad)" rx="1.5"/>
+      <rect x="70" y="45" width="3" height="10" fill="url(#blockGrad)" rx="1.5"/>
     </svg>
   ),
 
@@ -213,13 +195,13 @@ const TechIcons = {
     <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
       <defs>
         <linearGradient id="defaultGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: '#1a73e8', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#34a853', stopOpacity: 1 }} />
         </linearGradient>
       </defs>
-      <circle cx="50" cy="50" r="30" fill="url(#defaultGrad)" opacity="0.2"/>
-      <circle cx="50" cy="50" r="30" stroke="url(#defaultGrad)" strokeWidth="2" fill="none"/>
-      <circle cx="50" cy="50" r="5" fill="url(#defaultGrad)"/>
+      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#defaultGrad)" opacity="0.1"/>
+      <rect x="25" y="25" width="50" height="50" rx="12" fill="url(#defaultGrad)" opacity="0.2"/>
+      <circle cx="50" cy="50" r="8" fill="url(#defaultGrad)"/>
     </svg>
   )
 };
