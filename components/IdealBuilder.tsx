@@ -304,7 +304,7 @@ const IdeaBuilder: React.FC = () => {
                     <div className="idea-icon">💡</div>
                     <div className="idea-name">{idea.name}</div>
                   </div>
-                  <div className="idea-tagline">"{idea.tagline}"</div>
+                  <div className="idea-tagline">&ldquo;{idea.tagline}&rdquo;</div>
                   <div className="idea-description">{idea.description}</div>
                   <div className="idea-stats">
                     <div className="idea-stat">
