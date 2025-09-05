@@ -30,13 +30,16 @@ const IdeaBuilder: React.FC = () => {
     shareToWhatsApp,
     shareToTwitter,
     shareToFacebook,
-    shareToInstagram
+    shareToInstagram,
+    resetEverything
   } = useGameLogic();
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState('');
   const [showAchievement, setShowAchievement] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState<{title: string, message: string} | null>(null);
   const [draggedComponent, setDraggedComponent] = useState<string | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDragStart = (e: React.DragEvent, componentId: string) => {
     setDraggedComponent(componentId);
@@ -51,10 +54,18 @@ const IdeaBuilder: React.FC = () => {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragOver(false);
+    }
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    setIsDragOver(false);
     const componentId = e.dataTransfer.getData('componentId');
     const component = gameConfig.components.find(c => c.id === componentId);
     
@@ -70,8 +81,22 @@ const IdeaBuilder: React.FC = () => {
     const statElements = document.querySelectorAll('.stat-value');
     statElements.forEach(el => el.classList.add('updating'));
     
+    // Show generation steps for better UX
+    const steps = [
+      'Analyzing components...',
+      'Researching Nigerian market...',
+      'Calculating valuation...',
+      'Creating your startup!'
+    ];
+    
+    for (let i = 0; i < steps.length; i++) {
+      setGenerationStep(steps[i]);
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+    
     await generateStartupIdea();
     setIsGenerating(false);
+    setGenerationStep('');
     
     // Remove visual feedback
     setTimeout(() => {
@@ -114,9 +139,15 @@ const IdeaBuilder: React.FC = () => {
         <p className="tagline">Build Your Next Billion Naira Tech Startup!</p>
         <p className="sub-tagline">
           <span>🇳🇬 From Lagos to the World</span>
-          <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
-            <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
-          </button>
+          <div className="header-controls">
+            <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
+              <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
+            </button>
+            <button className="fresh-start-btn" onClick={resetEverything} title="Fresh Start - Clear All Data">
+              <span>🆕</span>
+              <span>Fresh Start</span>
+            </button>
+          </div>
         </p>
       </header>
 
@@ -247,14 +278,35 @@ const IdeaBuilder: React.FC = () => {
             <span>Build Your Idea</span>
           </h3>
           <div 
-            className="drop-zone"
+            className={`drop-zone ${isDragOver ? 'drag-over' : ''}`}
             onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
             {gameState.droppedComponents.length === 0 ? (
               <div className="drop-zone-empty">
                 <div className="drop-zone-empty-icon">📦</div>
                 <div className="drop-zone-empty-text">Drag components here to start building!</div>
+                <div className="drop-zone-hint">Need at least 2 components to generate an idea</div>
+              </div>
+            ) : gameState.droppedComponents.length === 1 ? (
+              <div className="dropped-components">
+                {gameState.droppedComponents.map(component => (
+                  <div key={component.id} className="dropped-component">
+                    <span className="dropped-component-emoji">{component.emoji}</span>
+                    <span className="dropped-component-label">{component.label}</span>
+                    <button 
+                      className="remove-component" 
+                      onClick={() => removeComponent(component.id)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <div className="need-more-hint">
+                  <span className="hint-icon">👆</span>
+                  <span>Add 1 more component to generate!</span>
+                </div>
               </div>
             ) : (
               <div className="dropped-components">
@@ -279,7 +331,7 @@ const IdeaBuilder: React.FC = () => {
               disabled={gameState.droppedComponents.length < 2 || isGenerating}
               onClick={handleGenerate}
             >
-              <span>{isGenerating ? 'Creating Your Startup...' : 'Generate Startup Idea'}</span>
+              <span>{isGenerating ? (generationStep || 'Creating Your Startup...') : 'Generate Startup Idea'}</span>
               {isGenerating ? (
                 <span className="loading-spinner"></span>
               ) : (
@@ -334,54 +386,31 @@ const IdeaBuilder: React.FC = () => {
                       <span>{idea.marketSize}</span>
                     </div>
                   </div>
-                  <div className="share-section">
-                    <div className="share-title">💫 Share Your Startup Idea:</div>
-                    <div className="share-buttons">
-                      <button 
-                        className="share-button share-whatsapp" 
-                        onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
-                        title="Share on WhatsApp with friends and family"
-                      >
-                        <span className="share-icon">📱</span>
-                        <span className="share-text">
-                          <span className="share-platform">WhatsApp</span>
-                          <span className="share-description">Friends & Family</span>
-                        </span>
-                      </button>
-                      <button 
-                        className="share-button share-twitter" 
-                        onClick={() => shareToTwitter(idea.name, idea.tagline)}
-                        title="Tweet your startup idea to the world"
-                      >
-                        <span className="share-icon">🐦</span>
-                        <span className="share-text">
-                          <span className="share-platform">Twitter</span>
-                          <span className="share-description">Tech Community</span>
-                        </span>
-                      </button>
-                      <button 
-                        className="share-button share-facebook" 
-                        onClick={() => shareToFacebook(idea.name, idea.tagline)}
-                        title="Post on Facebook timeline"
-                      >
-                        <span className="share-icon">👥</span>
-                        <span className="share-text">
-                          <span className="share-platform">Facebook</span>
-                          <span className="share-description">Social Network</span>
-                        </span>
-                      </button>
-                      <button 
-                        className="share-button share-instagram" 
-                        onClick={() => shareToInstagram(idea.name, idea.tagline)}
-                        title="Copy text for Instagram post or story"
-                      >
-                        <span className="share-icon">📸</span>
-                        <span className="share-text">
-                          <span className="share-platform">Instagram</span>
-                          <span className="share-description">Copy Text</span>
-                        </span>
-                      </button>
-                    </div>
+                  <div className="share-buttons">
+                    <button 
+                      className="share-button share-whatsapp" 
+                      onClick={() => shareToWhatsApp(idea.name, idea.tagline)}
+                    >
+                      Share on WhatsApp
+                    </button>
+                    <button 
+                      className="share-button share-twitter" 
+                      onClick={() => shareToTwitter(idea.name, idea.tagline)}
+                    >
+                      Share on Twitter
+                    </button>
+                    <button 
+                      className="share-button share-facebook" 
+                      onClick={() => shareToFacebook(idea.name, idea.tagline)}
+                    >
+                      Share on Facebook
+                    </button>
+                    <button 
+                      className="share-button share-instagram" 
+                      onClick={() => shareToInstagram(idea.name, idea.tagline)}
+                    >
+                      Copy for Instagram
+                    </button>
                   </div>
                 </div>
               ))

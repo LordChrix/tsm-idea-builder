@@ -121,7 +121,32 @@ const useGameLogic = () => {
   }, []);
 
   const addComponent = useCallback((component: Component) => {
-    if (gameState.droppedComponents.find(c => c.id === component.id)) return;
+    if (gameState.droppedComponents.find(c => c.id === component.id)) {
+      // Show duplicate notification
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-warning">
+          <span class="toast-icon">⚠️</span>
+          <span class="toast-message">You already have ${component.label} in your idea!</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 2000);
+      return;
+    }
     
     setGameState(prev => ({
       ...prev,
@@ -132,6 +157,30 @@ const useGameLogic = () => {
     if (gameState.droppedComponents.length < 3) {
       createConfetti();
     }
+    
+    // Show success notification
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+      <div class="toast-content toast-success">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message">${component.label} added to your startup!</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('toast-show');
+    }, 100);
+    
+    setTimeout(() => {
+      toast.classList.remove('toast-show');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 2500);
   }, [gameState.droppedComponents, playSound, createConfetti]);
 
   const removeComponent = useCallback((componentId: string) => {
@@ -147,6 +196,49 @@ const useGameLogic = () => {
       droppedComponents: []
     }));
   }, []);
+
+  const resetEverything = useCallback(() => {
+    setGameState({
+      droppedComponents: [],
+      generatedIdeas: [],
+      stats: {
+        ideasCount: 0,
+        totalNaira: 0,
+        jollofPoints: 0
+      },
+      soundEnabled: true
+    });
+    
+    // Clear localStorage
+    localStorage.removeItem('tsmGameState');
+    
+    // Play success sound
+    playSound('achievement');
+    
+    // Show confirmation
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+      <div class="toast-content toast-success">
+        <span class="toast-icon">🎯</span>
+        <span class="toast-message">Fresh start! All data cleared. Ready to build new startups!</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('toast-show');
+    }, 100);
+    
+    setTimeout(() => {
+      toast.classList.remove('toast-show');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 3000);
+  }, [playSound]);
 
   const getRealisticValuation = useCallback((componentCount: number): number => {
     const baseRanges = [
@@ -313,7 +405,8 @@ const useGameLogic = () => {
     shareToWhatsApp,
     shareToTwitter,
     shareToFacebook,
-    shareToInstagram
+    shareToInstagram,
+    resetEverything
   };
 };
 
