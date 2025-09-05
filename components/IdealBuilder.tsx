@@ -451,7 +451,10 @@ const IdeaBuilder: React.FC = () => {
                   </div>
                   
                   <div className="share-section">
-                    <div className="share-label">Share your startup:</div>
+                    <div className="share-header">
+                      <span className="share-icon">🚀</span>
+                      <div className="share-label">Share your startup</div>
+                    </div>
                     <div className="share-buttons-compact">
                       <button 
                         className="share-button-compact whatsapp" 
