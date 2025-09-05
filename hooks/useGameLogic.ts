@@ -158,6 +158,11 @@ const useGameLogic = () => {
       createConfetti();
     }
     
+    // Add haptic feedback for mobile
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
+    
     // Show success notification
     const toast = document.createElement('div');
     toast.className = 'toast-notification';

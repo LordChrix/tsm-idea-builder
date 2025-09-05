@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { gameConfig } from './GameConfig';
 import useGameLogic from '../hooks/useGameLogic';
 import LottieIcon from './LottieIcon';
@@ -40,6 +40,47 @@ const IdeaBuilder: React.FC = () => {
   const [currentAchievement, setCurrentAchievement] = useState<{title: string, message: string} | null>(null);
   const [draggedComponent, setDraggedComponent] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
+
+  // Detect touch device on component mount
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    
+    checkTouchDevice();
+    window.addEventListener('resize', checkTouchDevice);
+    
+    return () => window.removeEventListener('resize', checkTouchDevice);
+  }, []);
+
+  const handleComponentSelect = (componentId: string) => {
+    if (isTouchDevice) {
+      const component = gameConfig.components.find(c => c.id === componentId);
+      if (component) {
+        addComponent(component);
+      }
+    }
+  };
+
+  const toggleComponentSelection = (componentId: string) => {
+    if (selectedComponents.includes(componentId)) {
+      setSelectedComponents(prev => prev.filter(id => id !== componentId));
+    } else {
+      setSelectedComponents(prev => [...prev, componentId]);
+    }
+  };
+
+  const addSelectedComponents = () => {
+    selectedComponents.forEach(componentId => {
+      const component = gameConfig.components.find(c => c.id === componentId);
+      if (component) {
+        addComponent(component);
+      }
+    });
+    setSelectedComponents([]);
+  };
 
   const handleDragStart = (e: React.DragEvent, componentId: string) => {
     setDraggedComponent(componentId);
@@ -256,16 +297,25 @@ const IdeaBuilder: React.FC = () => {
             {gameConfig.components.map(component => (
               <div
                 key={component.id}
-                className={`component-card ${draggedComponent === component.id ? 'dragging' : ''}`}
-                draggable
-                onDragStart={(e) => handleDragStart(e, component.id)}
-                onDragEnd={handleDragEnd}
+                className={`component-card ${draggedComponent === component.id ? 'dragging' : ''} ${
+                  isTouchDevice && selectedComponents.includes(component.id) ? 'selected' : ''
+                }`}
+                draggable={!isTouchDevice}
+                onDragStart={!isTouchDevice ? (e) => handleDragStart(e, component.id) : undefined}
+                onDragEnd={!isTouchDevice ? handleDragEnd : undefined}
+                onClick={isTouchDevice ? () => handleComponentSelect(component.id) : undefined}
                 title={component.description}
               >
                 <div className="component-category">{component.category}</div>
                 <div className="component-emoji">{component.emoji}</div>
                 <div className="component-label">{component.label}</div>
                 <div className="component-description">{component.description}</div>
+                {isTouchDevice && (
+                  <div className="mobile-add-indicator">
+                    <span className="add-text">Tap to Add</span>
+                    <span className="add-icon">+</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -276,17 +326,20 @@ const IdeaBuilder: React.FC = () => {
           <h3 className="panel-title">
             <span>🎯</span>
             <span>Build Your Idea</span>
+            {isTouchDevice && <span className="mobile-instruction">(Tap components to add them)</span>}
           </h3>
           <div 
-            className={`drop-zone ${isDragOver ? 'drag-over' : ''}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+            className={`drop-zone ${isDragOver ? 'drag-over' : ''} ${isTouchDevice ? 'touch-mode' : ''}`}
+            onDragOver={!isTouchDevice ? handleDragOver : undefined}
+            onDragLeave={!isTouchDevice ? handleDragLeave : undefined}
+            onDrop={!isTouchDevice ? handleDrop : undefined}
           >
             {gameState.droppedComponents.length === 0 ? (
               <div className="drop-zone-empty">
                 <div className="drop-zone-empty-icon">📦</div>
-                <div className="drop-zone-empty-text">Drag components here to start building!</div>
+                <div className="drop-zone-empty-text">
+                  {isTouchDevice ? 'Tap components above to add them here!' : 'Drag components here to start building!'}
+                </div>
                 <div className="drop-zone-hint">Need at least 2 components to generate an idea</div>
               </div>
             ) : gameState.droppedComponents.length === 1 ? (

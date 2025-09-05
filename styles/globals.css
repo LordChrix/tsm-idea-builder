@@ -438,6 +438,55 @@ body::before {
     .fresh-start-btn span:last-child {
         display: none;
     }
+    
+    /* Enhanced Mobile Component Cards */
+    .component-card {
+        padding: 1.25rem;
+        min-height: 120px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .component-card:active {
+        transform: scale(0.95);
+        background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), rgba(0, 183, 255, 0.05));
+    }
+    
+    .mobile-add-indicator {
+        opacity: 1;
+        transform: scale(1);
+    }
+    
+    .component-description {
+        display: block;
+        margin-top: 0.5rem;
+    }
+    
+    .components-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .drop-zone-empty-text {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .drop-zone-hint {
+        font-size: 0.85rem;
+    }
+    
+    .drop-zone {
+        min-height: 250px;
+        padding: 1.5rem;
+    }
+    
+    .mobile-instruction {
+        display: block;
+        margin-top: 0.25rem;
+    }
 }
 
 /* Components Panel */
@@ -1286,6 +1335,219 @@ button:focus-visible,
 @keyframes shimmer {
     0% { left: -100%; }
     100% { left: 100%; }
+}
+
+/* Mobile Touch Interface */
+.mobile-add-indicator {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), #0095d4);
+    color: var(--white);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.component-card:hover .mobile-add-indicator,
+.component-card:active .mobile-add-indicator {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.component-card.selected {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), rgba(0, 183, 255, 0.05));
+    transform: scale(1.02);
+}
+
+.component-card.selected .mobile-add-indicator {
+    opacity: 1;
+    transform: scale(1);
+    background: var(--success);
+}
+
+.mobile-instruction {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    font-weight: 400;
+    margin-left: 0.5rem;
+    font-style: italic;
+}
+
+.drop-zone.touch-mode {
+    border-style: solid;
+    border-width: 2px;
+    background: linear-gradient(135deg, var(--gray-50), var(--white));
+}
+
+.drop-zone.touch-mode::after {
+    display: none;
+}
+
+/* Component Add Animation */
+.dropped-component {
+    animation: snapIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes snapIn {
+    0% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1) rotate(-5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Mobile Component Selection Feedback */
+.component-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.component-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 183, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+    pointer-events: none;
+}
+
+.component-card:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* Improved Mobile Touch Targets */
+@media (max-width: 768px) {
+    .component-card {
+        min-height: 140px;
+        border-radius: 16px;
+    }
+    
+    .component-emoji {
+        font-size: 3rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .component-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    
+    .mobile-add-indicator {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+        box-shadow: 0 2px 8px rgba(0, 183, 255, 0.3);
+    }
+    
+    .panel-title {
+        font-size: 1.1rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .btn {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        min-height: 50px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    /* Better Mobile Layout */
+    .header {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+    }
+    
+    .logo-text {
+        font-size: 2.5rem;
+    }
+    
+    .tagline {
+        font-size: 1.1rem;
+    }
+    
+    .sub-tagline {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .header-controls {
+        margin-left: 0;
+    }
+    
+    .stats-grid {
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        padding: 1.25rem 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.75rem;
+    }
+    
+    .instructions-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .instruction-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.85rem;
+    }
+    
+    .results-panel {
+        max-height: none;
+    }
+    
+    .idea-card {
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .idea-name {
+        font-size: 1.25rem;
+    }
+    
+    .share-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .share-button {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
 }
 
 /* Improved Card Hover Effects */
