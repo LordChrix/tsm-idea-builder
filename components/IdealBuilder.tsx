@@ -366,12 +366,13 @@ const IdeaBuilder: React.FC = () => {
             <span>Build Your Idea</span>
             {isTouchDevice && <span className="mobile-instruction">(Tap components to add them)</span>}
           </h3>
-          <div 
-            className={`drop-zone ${isDragOver ? 'drag-over' : ''} ${isTouchDevice ? 'touch-mode' : ''}`}
-            onDragOver={!isTouchDevice ? handleDragOver : undefined}
-            onDragLeave={!isTouchDevice ? handleDragLeave : undefined}
-            onDrop={!isTouchDevice ? handleDrop : undefined}
-          >
+          <div className="drop-zone-wrapper">
+            <div 
+              className={`drop-zone ${isDragOver ? 'drag-over' : ''} ${isTouchDevice ? 'touch-mode' : ''}`}
+              onDragOver={!isTouchDevice ? handleDragOver : undefined}
+              onDragLeave={!isTouchDevice ? handleDragLeave : undefined}
+              onDrop={!isTouchDevice ? handleDrop : undefined}
+            >
             {gameState.droppedComponents.length === 0 ? (
               <div className="drop-zone-empty">
                 <div className="drop-zone-empty-icon">📦</div>
@@ -415,6 +416,7 @@ const IdeaBuilder: React.FC = () => {
                 ))}
               </div>
             )}
+            </div>
           </div>
           <div className="action-buttons">
             <button 
@@ -443,15 +445,16 @@ const IdeaBuilder: React.FC = () => {
           <h3 className="panel-title">
             <span>💡</span>
             <span>Your Startups</span>
+            <span className="startup-count">({gameState.generatedIdeas.length})</span>
           </h3>
-          <div>
+          <div className="results-scroll-container">
             {gameState.generatedIdeas.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-state-icon">🎯</div>
                 <div className="empty-state-text">No startups yet. Start building!</div>
               </div>
             ) : (
-              gameState.generatedIdeas.slice(0, 5).map(idea => (
+              gameState.generatedIdeas.map(idea => (
                 <div key={idea.id} className="idea-card-compact">
                   <div className="idea-main-content">
                     <div className="idea-header-compact">

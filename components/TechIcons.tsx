@@ -12,16 +12,25 @@ const TechIcons = {
       <defs>
         <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#f093fb', stopOpacity: 1 }} />
         </linearGradient>
+        <filter id="aiGlow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge> 
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <circle cx="50" cy="50" r="45" fill="url(#aiGrad)" opacity="0.1"/>
-      <path d="M50 20 L65 35 L65 55 L50 70 L35 55 L35 35 Z" stroke="url(#aiGrad)" strokeWidth="3" fill="none"/>
-      <circle cx="50" cy="50" r="8" fill="url(#aiGrad)"/>
-      <circle cx="35" cy="35" r="4" fill="url(#aiGrad)"/>
-      <circle cx="65" cy="35" r="4" fill="url(#aiGrad)"/>
-      <circle cx="35" cy="55" r="4" fill="url(#aiGrad)"/>
-      <circle cx="65" cy="55" r="4" fill="url(#aiGrad)"/>
+      <circle cx="50" cy="50" r="45" fill="url(#aiGrad)" opacity="0.15"/>
+      <path d="M30 30 L50 20 L70 30 L70 50 L50 60 L30 50 Z" stroke="url(#aiGrad)" strokeWidth="2.5" fill="rgba(102, 126, 234, 0.1)" filter="url(#aiGlow)"/>
+      <circle cx="50" cy="40" r="6" fill="url(#aiGrad)" filter="url(#aiGlow)"/>
+      <path d="M42 50 L46 54 L54 46 M58 50 L54 54 L46 46" stroke="url(#aiGrad)" strokeWidth="2" strokeLinecap="round"/>
+      <circle cx="35" cy="35" r="3" fill="url(#aiGrad)" opacity="0.8"/>
+      <circle cx="65" cy="35" r="3" fill="url(#aiGrad)" opacity="0.8"/>
+      <circle cx="40" cy="65" r="2" fill="url(#aiGrad)" opacity="0.6"/>
+      <circle cx="60" cy="65" r="2" fill="url(#aiGrad)" opacity="0.6"/>
     </svg>
   ),
 
@@ -30,14 +39,27 @@ const TechIcons = {
       <defs>
         <linearGradient id="blockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: '#f093fb', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#f5576c', stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: '#f5576c', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
         </linearGradient>
+        <filter id="blockGlow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge> 
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <rect x="20" y="20" width="25" height="25" fill="url(#blockGrad)" opacity="0.8" rx="5"/>
-      <rect x="55" y="20" width="25" height="25" fill="url(#blockGrad)" opacity="0.8" rx="5"/>
-      <rect x="20" y="55" width="25" height="25" fill="url(#blockGrad)" opacity="0.8" rx="5"/>
-      <rect x="55" y="55" width="25" height="25" fill="url(#blockGrad)" opacity="0.8" rx="5"/>
-      <path d="M45 32.5 L55 32.5 M45 67.5 L55 67.5 M32.5 45 L32.5 55 M67.5 45 L67.5 55" stroke="url(#blockGrad)" strokeWidth="2"/>
+      <circle cx="50" cy="50" r="42" fill="url(#blockGrad)" opacity="0.1"/>
+      <rect x="18" y="18" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
+      <rect x="60" y="18" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
+      <rect x="18" y="60" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
+      <rect x="60" y="60" width="22" height="22" fill="url(#blockGrad)" opacity="0.9" rx="6" filter="url(#blockGlow)"/>
+      <path d="M40 29 L60 29 M40 71 L60 71 M29 40 L29 60 M71 40 L71 60" stroke="url(#blockGrad)" strokeWidth="3" strokeLinecap="round"/>
+      <circle cx="29" cy="29" r="3" fill="url(#blockGrad)"/>
+      <circle cx="71" cy="29" r="3" fill="url(#blockGrad)"/>
+      <circle cx="29" cy="71" r="3" fill="url(#blockGrad)"/>
+      <circle cx="71" cy="71" r="3" fill="url(#blockGrad)"/>
     </svg>
   ),
 
@@ -61,13 +83,23 @@ const TechIcons = {
       <defs>
         <linearGradient id="mobileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
         </linearGradient>
+        <filter id="mobileGlow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge> 
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <rect x="35" y="20" width="30" height="60" rx="5" fill="url(#mobileGrad)" opacity="0.2"/>
-      <rect x="35" y="20" width="30" height="60" rx="5" stroke="url(#mobileGrad)" strokeWidth="2" fill="none"/>
-      <rect x="40" y="30" width="20" height="35" fill="url(#mobileGrad)" opacity="0.5"/>
-      <circle cx="50" cy="73" r="3" fill="url(#mobileGrad)"/>
+      <ellipse cx="50" cy="50" rx="25" ry="40" fill="url(#mobileGrad)" opacity="0.15"/>
+      <rect x="32" y="15" width="36" height="70" rx="8" fill="rgba(255,255,255,0.1)" stroke="url(#mobileGrad)" strokeWidth="2.5" filter="url(#mobileGlow)"/>
+      <rect x="37" y="25" width="26" height="40" rx="3" fill="url(#mobileGrad)" opacity="0.7"/>
+      <circle cx="50" cy="75" r="4" fill="url(#mobileGrad)" filter="url(#mobileGlow)"/>
+      <rect x="45" y="19" width="10" height="2" rx="1" fill="url(#mobileGrad)" opacity="0.6"/>
+      <path d="M42 30 L58 30 M42 35 L55 35 M42 40 L52 40" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
 
@@ -76,14 +108,24 @@ const TechIcons = {
       <defs>
         <linearGradient id="payGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: '#fa709a', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#fee140', stopOpacity: 1 }} />
+          <stop offset="50%" style={{ stopColor: '#fee140', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
         </linearGradient>
+        <filter id="payGlow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge> 
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <rect x="25" y="35" width="50" height="30" rx="5" fill="url(#payGrad)" opacity="0.3"/>
-      <rect x="25" y="35" width="50" height="30" rx="5" stroke="url(#payGrad)" strokeWidth="2" fill="none"/>
-      <rect x="30" y="45" width="15" height="2" fill="url(#payGrad)"/>
-      <rect x="30" y="50" width="25" height="2" fill="url(#payGrad)"/>
-      <circle cx="65" cy="55" r="5" fill="url(#payGrad)" opacity="0.7"/>
+      <ellipse cx="50" cy="50" rx="40" ry="25" fill="url(#payGrad)" opacity="0.15"/>
+      <rect x="20" y="30" width="60" height="40" rx="8" fill="rgba(255,255,255,0.1)" stroke="url(#payGrad)" strokeWidth="2.5" filter="url(#payGlow)"/>
+      <rect x="20" y="45" width="60" height="8" fill="url(#payGrad)" opacity="0.6"/>
+      <rect x="25" y="58" width="20" height="3" rx="1" fill="url(#payGrad)" opacity="0.8"/>
+      <rect x="25" y="63" width="30" height="2" rx="1" fill="url(#payGrad)" opacity="0.6"/>
+      <circle cx="70" cy="60" r="6" fill="url(#payGrad)" filter="url(#payGlow)"/>
+      <path d="M65 60 L67 62 L75 54" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none"/>
     </svg>
   ),
 
