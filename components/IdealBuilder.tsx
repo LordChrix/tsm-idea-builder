@@ -343,12 +343,10 @@ const IdeaBuilder: React.FC = () => {
                 onClick={isTouchDevice ? () => handleComponentSelect(component.id) : undefined}
                 title={component.description}
               >
-                <div className="component-category">{component.category}</div>
                 <div className="component-icon-wrapper">
                   {getComponentIcon(component.id)}
                 </div>
                 <div className="component-label">{component.label}</div>
-                <div className="component-description">{component.description}</div>
                 {isTouchDevice && (
                   <div className="mobile-add-indicator">
                     <span className="add-text">Tap to Add</span>

@@ -5,55 +5,60 @@
 }
 
 :root {
-    /* Bento Grid Color Palette */
-    --primary: #1a73e8;
-    --secondary: #34a853;
-    --accent: #ea4335;
-    --warning: #fbbc04;
-    --dark: #1f1f1f;
-    --white: #ffffff;
-    --surface: #f8f9fa;
-    --surface-variant: #f1f3f4;
-    --outline: #dadce0;
-    --outline-variant: #e8eaed;
-    --on-surface: #3c4043;
-    --on-surface-variant: #5f6368;
+    /* Modern Bento Grid Color Palette */
+    --background: #0a0a0b;
+    --surface: #111113;
+    --surface-variant: #1a1a1c;
+    --surface-bright: #1e1e21;
+    --surface-container: #141416;
+    --surface-container-high: #1f1f22;
     
-    /* Gray Scale */
-    --gray-50: #f9fafb;
-    --gray-100: #f1f3f4;
-    --gray-200: #e8eaed;
-    --gray-300: #dadce0;
-    --gray-400: #9aa0a6;
-    --gray-500: #5f6368;
-    --gray-600: #3c4043;
-    --gray-700: #202124;
-    --gray-800: #1f1f1f;
-    --gray-900: #111827;
+    --primary: #3b82f6;
+    --primary-variant: #2563eb;
+    --secondary: #10b981;
+    --accent: #f59e0b;
+    --error: #ef4444;
     
-    /* Bento Grid Shadows */
-    --shadow-bento-sm: 0 1px 2px 0 rgb(60 64 67 / 0.3), 0 1px 3px 1px rgb(60 64 67 / 0.15);
-    --shadow-bento: 0 1px 3px 0 rgb(60 64 67 / 0.3), 0 4px 8px 3px rgb(60 64 67 / 0.15);
-    --shadow-bento-lg: 0 2px 6px 2px rgb(60 64 67 / 0.15), 0 8px 24px 4px rgb(60 64 67 / 0.15);
-    --shadow-bento-xl: 0 4px 16px 6px rgb(60 64 67 / 0.15), 0 16px 32px 8px rgb(60 64 67 / 0.15);
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --text-disabled: #52525b;
+    
+    --border: #27272a;
+    --border-variant: #3f3f46;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --gradient-secondary: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --gradient-surface: linear-gradient(135deg, #1a1a1c 0%, #111113 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
     
     /* Border Radius */
     --radius-xs: 4px;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --radius-2xl: 24px;
-    --radius-3xl: 32px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
+    --radius-3xl: 24px;
+    --radius-4xl: 32px;
 }
 
 body {
-    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--surface);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    background: var(--background);
     min-height: 100vh;
-    color: var(--on-surface);
+    color: var(--text-primary);
     line-height: 1.5;
-    letter-spacing: -0.011em;
+    letter-spacing: -0.025em;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -65,40 +70,56 @@ body {
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 2rem;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto;
-    gap: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: min-content;
+    gap: 1.5rem;
     min-height: 100vh;
 }
 
-/* Bento Grid Layout Classes */
-.bento-item {
-    background: var(--white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-bento);
-    padding: 1.5rem;
-    border: 1px solid var(--outline-variant);
-    transition: all 0.2s ease;
-}
-
-.bento-item:hover {
-    box-shadow: var(--shadow-bento-lg);
-    transform: translateY(-2px);
-}
-
-/* Header Section - Bento Grid Style */
-.header {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: var(--white);
-    text-align: center;
+.bento-card {
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
     border-radius: var(--radius-2xl);
-    padding: 2rem;
-    box-shadow: var(--shadow-bento-lg);
+    padding: 1.5rem;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+}
+
+.bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-variant);
+}
+
+.bento-card.gradient-primary {
+    background: var(--gradient-primary);
+    border-color: transparent;
+}
+
+.bento-card.gradient-secondary {
+    background: var(--gradient-secondary);
+    border-color: transparent;
+}
+
+.bento-card.accent {
+    background: var(--surface-bright);
+    border-color: var(--accent);
+}
+
+/* Header Section */
+.header {
+    grid-column: 1 / -1;
+    background: var(--gradient-primary);
+    color: white;
+    text-align: center;
+    border-radius: var(--radius-2xl);
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
 }
 
 .header::before {
@@ -108,7 +129,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -271,20 +292,25 @@ body {
 .stats-grid {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-    margin-bottom: 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .stat-card {
-    background: var(--white);
-    border-radius: var(--radius-xl);
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
     padding: 1.5rem;
-    box-shadow: var(--shadow-bento);
-    border: 1px solid var(--outline-variant);
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-variant);
 }
 
 .stat-card::before {
@@ -396,35 +422,39 @@ body {
     flex-shrink: 0;
 }
 
-/* Game Area - Bento Grid Layout */
+/* Game Area - Proper Bento Grid Layout */
 .game-area {
     grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
-    margin-bottom: 0;
+    display: contents;
 }
 
-/* Bento Grid Responsive Layout */
+/* Responsive Bento Grid Layout */
 @media (max-width: 1200px) {
     .container {
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        padding: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .components-panel {
-        grid-column: 1 / 4;
-        max-height: 600px;
+        grid-column: 1 / 3;
+        grid-row: span 1;
+        height: 400px;
     }
     
     .drop-zone-container {
-        grid-column: 4 / -1;
+        grid-column: 3 / -1;
+        grid-row: span 1;
         min-height: 400px;
     }
     
     .results-panel {
         grid-column: 1 / -1;
-        min-height: 400px;
-        margin-top: 1rem;
+        grid-row: span 1;
+        height: 400px;
     }
 }
 
@@ -435,131 +465,75 @@ body {
         padding: 1rem;
     }
     
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
     .components-panel,
     .drop-zone-container,
     .results-panel {
         grid-column: 1;
-        min-height: 300px;
-        max-height: 400px;
-    }
-    
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
+        grid-row: span 1;
+        height: 350px;
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    
-    .game-area {
-        gap: 1rem;
-    }
-    
-    .components-panel,
-    .drop-zone-container,
-    .results-panel {
-        padding: 1.25rem;
-    }
-    
-    .header-controls {
-        gap: 0.5rem;
-        margin-left: 0.5rem;
-    }
-    
-    .fresh-start-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
-    
-    .fresh-start-btn span:last-child {
-        display: none;
-    }
-    
-    /* Enhanced Mobile Component Cards */
-    .component-card {
-        padding: 1rem;
-        min-height: 110px;
-        position: relative;
-        cursor: pointer;
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    .component-card:active {
-        transform: scale(0.95);
-        background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), rgba(0, 183, 255, 0.05));
-    }
-    
-    .mobile-add-indicator {
-        opacity: 1;
-        transform: scale(1);
-        width: 28px;
-        height: 28px;
-        font-size: 1.1rem;
-    }
-    
-    .component-description {
-        display: none;
-    }
-    
-    .components-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-    
-    .drop-zone-empty-text {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .drop-zone-hint {
-        font-size: 0.85rem;
-    }
-    
-    .drop-zone {
-        min-height: 250px;
-        padding: 1.5rem;
-    }
-    
-    .mobile-instruction {
-        display: block;
-        margin-top: 0.25rem;
-    }
+.components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for components grid */
+.components-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.components-grid::-webkit-scrollbar-track {
+    background: var(--surface-container);
+    border-radius: 3px;
+}
+
+.components-grid::-webkit-scrollbar-thumb {
+    background: var(--border-variant);
+    border-radius: 3px;
+}
+
+.components-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
 }
 
 /* Components Panel - Bento Grid */
 .components-panel {
-    grid-column: 1 / 5;
-    background: var(--white);
-    border-radius: var(--radius-xl);
+    grid-column: 1 / 3;
+    grid-row: span 2;
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
     padding: 1.5rem;
-    box-shadow: var(--shadow-bento);
-    border: 1px solid var(--outline-variant);
-    height: fit-content;
-    max-height: 700px;
+    transition: all 0.2s ease;
+    height: 600px;
     overflow-y: auto;
+}
+
+.components-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-variant);
 }
 
 .panel-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--on-surface);
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    letter-spacing: -0.011em;
-    position: relative;
+    letter-spacing: -0.025em;
 }
 
 .panel-title::after {
@@ -601,29 +575,27 @@ body {
 }
 
 .component-card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 16px;
-    padding: 0.75rem;
+    background: var(--surface-bright);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
     cursor: grab;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-align: center;
     position: relative;
-    min-height: 100px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .component-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(0, 183, 255, 0.5);
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.2);
-    z-index: 10;
+    background: var(--surface-container-high);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .component-card.dragging {
@@ -657,12 +629,11 @@ body {
 }
 
 .component-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
     line-height: 1.2;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .component-description {
@@ -697,16 +668,21 @@ body {
 
 /* Drop Zone - Bento Grid */
 .drop-zone-container {
-    grid-column: 5 / 9;
-    background: var(--white);
-    border-radius: var(--radius-xl);
+    grid-column: 3 / 5;
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
     padding: 1.5rem;
-    box-shadow: var(--shadow-bento);
-    border: 1px solid var(--outline-variant);
-    height: fit-content;
-    min-height: 500px;
+    transition: all 0.2s ease;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
+}
+
+.drop-zone-container:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-variant);
 }
 
 .drop-zone-wrapper {
@@ -952,16 +928,22 @@ body {
 
 /* Results Panel - Bento Grid */
 .results-panel {
-    grid-column: 9 / -1;
-    background: var(--white);
-    border-radius: var(--radius-xl);
+    grid-column: 5 / -1;
+    grid-row: span 2;
+    background: var(--surface-variant);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
     padding: 1.5rem;
-    box-shadow: var(--shadow-bento);
-    border: 1px solid var(--outline-variant);
-    height: fit-content;
-    min-height: 500px;
+    transition: all 0.2s ease;
+    height: 600px;
     display: flex;
     flex-direction: column;
+}
+
+.results-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-variant);
 }
 
 .results-scroll-container {
