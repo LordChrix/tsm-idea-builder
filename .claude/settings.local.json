@@ -11,7 +11,9 @@
       "Bash(git config:*)",
       "Bash(npm run build:*)",
       "Bash(npm install)",
-      "Read(//Users/tsmgroup/Documents/Salesfunnel-test/**)"
+      "Read(//Users/tsmgroup/Documents/Salesfunnel-test/**)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []

@@ -181,18 +181,93 @@ const IdeaBuilder: React.FC = () => {
 
   const getComponentIcon = (componentId: string) => {
     const iconMap: { [key: string]: keyof typeof TechIcons } = {
+      // Tech & Mobile
       'mobileapp': 'mobile',
-      'onlinepayment': 'payment',
-      'delivery': 'delivery',
-      'socialmedia': 'social',
-      'onlineshopping': 'shopping',
+      'edgecomputing': 'edgecomputing',
       'cloudbackup': 'cloud',
-      'ai': 'ai',
+      
+      // Payment & Finance
+      'onlinepayment': 'payment',
+      'cryptocurrency': 'cryptocurrency',
       'blockchain': 'blockchain',
-      'cryptocurrency': 'blockchain',
+      
+      // Transport & Delivery
+      'delivery': 'delivery',
+      'rideshare': 'rideshare',
+      'drones': 'drone',
+      
+      // Communication & Social
+      'socialmedia': 'social',
+      'videochat': 'videochat',
+      'messaging': 'messaging',
+      'translation': 'translation',
+      
+      // Shopping & Commerce  
+      'onlineshopping': 'shopping',
+      
+      // Education & Learning
+      'onlinelearning': 'learning',
+      
+      // Services & Booking
+      'bookingapp': 'booking',
+      
+      // Food & Agriculture
+      'foodorder': 'food',
+      'farming': 'farming',
+      
+      // Healthcare
+      'healthcare': 'healthcare',
+      
+      // Real Estate & Housing
+      'realestate': 'realestate',
+      
+      // Entertainment & Media
+      'entertainment': 'entertainment',
+      'music': 'music',
+      
+      // Sports & Fitness
+      'sports': 'sports',
+      
+      // Fashion & Style
+      'fashion': 'fashion',
+      
+      // Security & Safety
+      'security': 'security',
+      'cybersecurity': 'cybersecurity',
+      'biometrics': 'biometrics',
+      
+      // Utilities & Power
+      'generator': 'generator',
+      
+      // Information & News
+      'news': 'news',
+      'weather': 'weather',
+      
+      // AI & Automation
+      'ai': 'ai',
+      'chatbot': 'chatbot',
+      'voiceassistant': 'voiceassistant',
+      'facerecognition': 'facerecognition',
+      'dataanalytics': 'dataanalytics',
+      'automation': 'automation',
+      'computervision': 'computervision',
+      'nlp': 'nlp',
+      
+      // IoT & Hardware
+      'iot': 'iot',
+      'robotics': 'robotics',
+      '3dprinting': 'printing3d',
+      
+      // VR/AR
       'vr': 'vr',
-      'ar': 'vr',
-      'drones': 'drone'
+      'ar': 'ar',
+      
+      // Development & API
+      'api': 'api',
+      'microservices': 'microservices',
+      
+      // Advanced Computing
+      'quantum': 'quantum'
     };
 
     const IconComponent = TechIcons[iconMap[componentId] || 'default'];
@@ -212,11 +287,11 @@ const IdeaBuilder: React.FC = () => {
               fallback={<span className="animate-bounce">🚀</span>}
             />
           </div>
-          <h1 className="logo-text">TSM Idea Builder</h1>
+          <h1 className="logo-text">TSM Builder Game</h1>
         </div>
         <p className="tagline">Build Your Next Billion Naira Tech Startup!</p>
         <p className="sub-tagline">
-          <span>🇳🇬 From Abuja to the World</span>
+          <span>🇳🇬 From Abuja to the World • Turn Your Ideas Into Reality</span>
           <div className="header-controls">
             <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
               <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
@@ -352,7 +427,7 @@ const IdeaBuilder: React.FC = () => {
                 <div className="component-label">{component.label}</div>
                 {isTouchDevice && (
                   <div className="mobile-add-indicator">
-                    <span className="add-text">Tap to Add</span>
+                    <span className="add-text">Select</span>
                     <span className="add-icon">+</span>
                   </div>
                 )}
@@ -387,7 +462,9 @@ const IdeaBuilder: React.FC = () => {
               <div className="dropped-components">
                 {gameState.droppedComponents.map(component => (
                   <div key={component.id} className="dropped-component">
-                    <span className="dropped-component-emoji">{component.emoji}</span>
+                    <div className="dropped-component-icon">
+                      {getComponentIcon(component.id)}
+                    </div>
                     <span className="dropped-component-label">{component.label}</span>
                     <button 
                       className="remove-component" 
@@ -406,7 +483,9 @@ const IdeaBuilder: React.FC = () => {
               <div className="dropped-components">
                 {gameState.droppedComponents.map(component => (
                   <div key={component.id} className="dropped-component">
-                    <span className="dropped-component-emoji">{component.emoji}</span>
+                    <div className="dropped-component-icon">
+                      {getComponentIcon(component.id)}
+                    </div>
                     <span className="dropped-component-label">{component.label}</span>
                     <button 
                       className="remove-component" 
