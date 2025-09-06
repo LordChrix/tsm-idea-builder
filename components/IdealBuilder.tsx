@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import Lottie from 'lottie-react';
 import { gameConfig } from './GameConfig';
 import useGameLogic from '../hooks/useGameLogic';
 import LottieIcon from './LottieIcon';
@@ -97,103 +96,6 @@ const IdeaBuilder: React.FC = () => {
     setActiveShareDropdown(activeShareDropdown === ideaId ? null : ideaId);
   };
 
-  const downloadBlueprint = async (idea: any) => {
-    try {
-      const { jsPDF } = await import('jspdf');
-      const doc = new jsPDF();
-      
-      // Add title
-      doc.setFontSize(20);
-      doc.setTextColor(0, 122, 255);
-      doc.text(idea.name, 20, 20);
-      
-      // Add sections
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      
-      let yPosition = 40;
-      
-      // Executive Summary
-      doc.setFont(undefined, 'bold');
-      doc.text('Executive Summary', 20, yPosition);
-      doc.setFont(undefined, 'normal');
-      yPosition += 10;
-      const summaryLines = doc.splitTextToSize(idea.executiveSummary, 170);
-      doc.text(summaryLines, 20, yPosition);
-      yPosition += summaryLines.length * 7 + 10;
-      
-      // Market Opportunity
-      doc.setFont(undefined, 'bold');
-      doc.text('Market Opportunity', 20, yPosition);
-      doc.setFont(undefined, 'normal');
-      yPosition += 10;
-      const marketLines = doc.splitTextToSize(idea.marketOpportunity, 170);
-      doc.text(marketLines, 20, yPosition);
-      yPosition += marketLines.length * 7 + 10;
-      
-      // Revenue Model
-      doc.setFont(undefined, 'bold');
-      doc.text('Revenue Model', 20, yPosition);
-      doc.setFont(undefined, 'normal');
-      yPosition += 10;
-      const revenueLines = doc.splitTextToSize(idea.revenueModel, 170);
-      doc.text(revenueLines, 20, yPosition);
-      yPosition += revenueLines.length * 7 + 10;
-      
-      // Key Features
-      doc.setFont(undefined, 'bold');
-      doc.text('Key Features', 20, yPosition);
-      doc.setFont(undefined, 'normal');
-      yPosition += 10;
-      const featuresLines = doc.splitTextToSize(idea.keyFeatures, 170);
-      doc.text(featuresLines, 20, yPosition);
-      yPosition += featuresLines.length * 7 + 10;
-      
-      // Next Steps
-      doc.setFont(undefined, 'bold');
-      doc.text('Next Steps', 20, yPosition);
-      doc.setFont(undefined, 'normal');
-      yPosition += 10;
-      const stepsLines = doc.splitTextToSize(idea.nextSteps, 170);
-      doc.text(stepsLines, 20, yPosition);
-      yPosition += stepsLines.length * 7 + 10;
-      
-      // Call to Action
-      doc.setFont(undefined, 'italic');
-      doc.setTextColor(0, 122, 255);
-      const ctaLines = doc.splitTextToSize(idea.callToAction, 170);
-      doc.text(ctaLines, 20, yPosition);
-      
-      // Save the PDF
-      doc.save(`${idea.name.replace(/\s+/g, '_')}_Blueprint.pdf`);
-      
-      // Show success message
-      const toast = document.createElement('div');
-      toast.className = 'toast-notification';
-      toast.innerHTML = `
-        <div class="toast-content toast-success">
-          <span class="toast-icon">✅</span>
-          <span class="toast-message">Blueprint downloaded successfully!</span>
-        </div>
-      `;
-      document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.classList.add('toast-show');
-      }, 100);
-      
-      setTimeout(() => {
-        toast.classList.remove('toast-show');
-        setTimeout(() => {
-          if (toast.parentNode) {
-            document.body.removeChild(toast);
-          }
-        }, 300);
-      }, 3000);
-    } catch (error) {
-      console.error('Error downloading blueprint:', error);
-    }
-  };
 
   const openConsultationModal = (idea: any) => {
     setSelectedBlueprint(idea);
@@ -266,7 +168,7 @@ const IdeaBuilder: React.FC = () => {
     }
   };
 
-  const createRocketAnimation = () => {
+  const createRocketAnimation = useCallback(() => {
     // Create rocket element
     const rocket = document.createElement('div');
     rocket.innerHTML = '🚀';
@@ -424,7 +326,7 @@ const IdeaBuilder: React.FC = () => {
         document.body.removeChild(sparkles);
       }
     }, 1900);
-  };
+  }, []);
 
   // Lottie Animation Array for Dynamic System
   const lottieAnimations = [
@@ -1204,7 +1106,7 @@ const IdeaBuilder: React.FC = () => {
                           <button 
                             className="share-option whatsapp" 
                             onClick={() => {
-                              shareToWhatsApp(idea.name, idea.tagline);
+                              shareToWhatsApp(idea.name, idea.executiveSummary);
                               setActiveShareDropdown(null);
                             }}
                           >
@@ -1214,7 +1116,7 @@ const IdeaBuilder: React.FC = () => {
                           <button 
                             className="share-option x-twitter" 
                             onClick={() => {
-                              shareToTwitter(idea.name, idea.tagline);
+                              shareToTwitter(idea.name, idea.executiveSummary);
                               setActiveShareDropdown(null);
                             }}
                           >
@@ -1224,7 +1126,7 @@ const IdeaBuilder: React.FC = () => {
                           <button 
                             className="share-option facebook" 
                             onClick={() => {
-                              shareToFacebook(idea.name, idea.tagline);
+                              shareToFacebook(idea.name, idea.executiveSummary);
                               setActiveShareDropdown(null);
                             }}
                           >
@@ -1234,7 +1136,7 @@ const IdeaBuilder: React.FC = () => {
                           <button 
                             className="share-option instagram" 
                             onClick={() => {
-                              shareToInstagram(idea.name, idea.tagline);
+                              shareToInstagram(idea.name, idea.executiveSummary);
                               setActiveShareDropdown(null);
                             }}
                           >
