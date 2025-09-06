@@ -140,10 +140,10 @@ const IdeaBuilder: React.FC = () => {
       position: fixed;
       font-size: 120px;
       z-index: 10000;
-      right: -180px;
+      left: 20%;
       bottom: -180px;
-      transform: rotate(-45deg);
-      animation: magical-rocket-fly 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      transform: rotate(-30deg);
+      animation: natural-rocket-launch 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       filter: drop-shadow(0 0 40px rgba(255, 50, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 120px rgba(255, 100, 0, 0.4));
     `;
     
@@ -154,9 +154,9 @@ const IdeaBuilder: React.FC = () => {
       position: fixed;
       font-size: 40px;
       z-index: 9998;
-      right: -150px;
+      left: 20%;
       bottom: -150px;
-      animation: sparkles-follow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      animation: sparkles-natural-follow 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
     `;
     
@@ -164,20 +164,20 @@ const IdeaBuilder: React.FC = () => {
     const trail = document.createElement('div');
     trail.style.cssText = `
       position: fixed;
-      width: 300px;
-      height: 8px;
-      background: linear-gradient(135deg, 
+      width: 250px;
+      height: 12px;
+      background: linear-gradient(-30deg, 
         rgba(255, 0, 150, 0.8) 0%, 
         rgba(255, 100, 0, 0.9) 25%, 
         rgba(0, 255, 255, 0.8) 50%, 
         rgba(150, 0, 255, 0.9) 75%, 
         transparent 100%);
       z-index: 9999;
-      right: -350px;
-      bottom: -350px;
-      transform: rotate(-45deg);
-      border-radius: 4px;
-      animation: rainbow-trail-fly 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      left: 20%;
+      bottom: -300px;
+      transform: rotate(-30deg);
+      border-radius: 6px;
+      animation: natural-trail-launch 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       box-shadow: 0 0 20px rgba(255, 100, 255, 0.5);
     `;
     
@@ -186,72 +186,88 @@ const IdeaBuilder: React.FC = () => {
       const style = document.createElement('style');
       style.id = 'rocket-animation-style';
       style.textContent = `
-        @keyframes magical-rocket-fly {
+        @keyframes natural-rocket-launch {
           0% {
-            right: -180px;
+            left: 20%;
             bottom: -180px;
-            transform: rotate(-45deg) scale(0.5);
+            transform: rotate(-30deg) scale(0.4);
             filter: drop-shadow(0 0 40px rgba(255, 50, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 120px rgba(255, 100, 0, 0.4));
           }
-          25% {
-            transform: rotate(-45deg) scale(1.4);
+          15% {
+            left: 30%;
+            bottom: 20%;
+            transform: rotate(-25deg) scale(1.2);
             filter: drop-shadow(0 0 60px rgba(255, 50, 255, 1)) drop-shadow(0 0 120px rgba(0, 255, 255, 0.8)) drop-shadow(0 0 180px rgba(255, 100, 0, 0.6));
           }
-          75% {
-            transform: rotate(-45deg) scale(1.1);
+          45% {
+            left: 60%;
+            bottom: 60%;
+            transform: rotate(-20deg) scale(1.1);
             filter: drop-shadow(0 0 50px rgba(255, 50, 255, 0.9)) drop-shadow(0 0 100px rgba(0, 255, 255, 0.7)) drop-shadow(0 0 150px rgba(255, 100, 0, 0.5));
           }
+          75% {
+            left: 80%;
+            bottom: 85%;
+            transform: rotate(-15deg) scale(0.9);
+            filter: drop-shadow(0 0 40px rgba(255, 50, 255, 0.7)) drop-shadow(0 0 80px rgba(0, 255, 255, 0.5)) drop-shadow(0 0 120px rgba(255, 100, 0, 0.4));
+          }
           100% {
-            right: calc(100% + 180px);
-            bottom: calc(100% + 180px);
-            transform: rotate(-45deg) scale(0.8);
-            filter: drop-shadow(0 0 30px rgba(255, 50, 255, 0.6)) drop-shadow(0 0 60px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 90px rgba(255, 100, 0, 0.3));
+            left: calc(100% + 100px);
+            bottom: calc(100% + 100px);
+            transform: rotate(-10deg) scale(0.6);
+            filter: drop-shadow(0 0 20px rgba(255, 50, 255, 0.4)) drop-shadow(0 0 40px rgba(0, 255, 255, 0.3)) drop-shadow(0 0 60px rgba(255, 100, 0, 0.2));
           }
         }
         
-        @keyframes sparkles-follow {
+        @keyframes sparkles-natural-follow {
           0% {
-            right: -150px;
+            left: 20%;
             bottom: -150px;
             opacity: 0;
             transform: scale(0.5) rotate(0deg);
           }
           20% {
+            left: 35%;
+            bottom: 25%;
             opacity: 1;
             transform: scale(1.2) rotate(180deg);
           }
-          80% {
+          60% {
+            left: 70%;
+            bottom: 70%;
             opacity: 1;
             transform: scale(1) rotate(360deg);
           }
           100% {
-            right: calc(100% + 150px);
-            bottom: calc(100% + 150px);
+            left: calc(100% + 50px);
+            bottom: calc(100% + 50px);
             opacity: 0;
             transform: scale(0.7) rotate(540deg);
           }
         }
         
-        @keyframes rainbow-trail-fly {
+        @keyframes natural-trail-launch {
           0% {
-            right: -500px;
-            bottom: -500px;
+            left: 15%;
+            bottom: -350px;
             opacity: 0;
-            transform: rotate(-45deg) scale(0.5);
+            transform: rotate(-30deg) scale(0.3);
           }
           15% {
             opacity: 1;
-            transform: rotate(-45deg) scale(1);
+            transform: rotate(-30deg) scale(1);
           }
           85% {
+            left: 75%;
+            bottom: 80%;
             opacity: 1;
-            transform: rotate(-45deg) scale(1);
+            transform: rotate(-30deg) scale(1);
           }
           100% {
-            right: calc(100% + 200px);
-            bottom: calc(100% + 200px);
+            left: calc(100% + 150px);
+            bottom: calc(100% + 150px);
             opacity: 0;
-            transform: rotate(-45deg) scale(0.8);
+            transform: rotate(-30deg) scale(0.7);
           }
         }
       `;
@@ -273,7 +289,7 @@ const IdeaBuilder: React.FC = () => {
       if (sparkles.parentNode) {
         document.body.removeChild(sparkles);
       }
-    }, 1300);
+    }, 1900);
   };
 
   const handleGenerate = async () => {
