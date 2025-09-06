@@ -321,9 +321,9 @@ const useGameLogic = () => {
       const suffix = gameConfig.suffixes[Math.floor(Math.random() * gameConfig.suffixes.length)];
       
       const fallbackDescriptions = [
-        `Revolutionary ${components[0].label} + ${components[1] ? components[1].label : components[0].label} platform designed for Nigerian users. Solving real problems with innovative technology.`,
-        `Smart ${components.map(c => c.label).join(' + ')} solution that makes life easier for Nigerians. Built with local insights and global technology standards.`,
-        `Nigerian-first ${components[0].label} platform that understands local needs. Bridging the gap between technology and everyday Nigerian challenges.`
+        `Revolutionary ${components[0].label} platform for Nigerian users. Solves real problems with innovative technology and affordable ₦5000/month pricing.`,
+        `Smart ${components.map(c => c.label).join(' + ')} solution for Nigeria. Makes life easier with local insights. Starting at ₦10000.`,
+        `Nigerian ${components[0].label} platform addressing local needs. Bridging technology gaps for 25M Lagos residents. ₦3000 monthly subscription.`
       ];
       
       return {

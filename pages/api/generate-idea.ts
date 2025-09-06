@@ -60,7 +60,7 @@ export default async function handler(
 Focus on Nigerian market context but with global appeal:
 - Name: Creative tech startup name (can reference Nigerian cities/culture)
 - Tagline: Catchy, professional tagline with emoji (English only, no pidgin)
-- Description: Address real problems relevant to Nigerian users with practical solutions and pricing
+- Description: MAXIMUM 40 words. Address real problems relevant to Nigerian users with solutions and Naira pricing
 - Consider: Lagos traffic, mobile money, farming challenges, banking access, education gaps, healthcare needs
 - Use clear, professional English throughout
 - Include specific Naira pricing where relevant
@@ -69,11 +69,13 @@ Focus on Nigerian market context but with global appeal:
 - Funding Stage: Pre-seed, Seed Round, Series A, or Series B
 - Market Size: Population context (e.g., "25M Lagos residents", "180M mobile users")
 
+CRITICAL: Description must be exactly 40 words or less. Be concise and impactful.
+
 Respond ONLY with this JSON format:
 {
   "name": "startup name here",
   "tagline": "professional tagline with emoji",
-  "description": "detailed solution description with specific pricing and benefits",
+  "description": "concise solution description with pricing (MAX 40 words)",
   "valuation": 500000000,
   "jollofRating": 8,
   "fundingStage": "Seed Round",
