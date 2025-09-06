@@ -37,10 +37,17 @@ export interface Achievement {
 
 export const gameConfig = {
   components: [
-    { id: 'mobileapp', emoji: '📱', label: 'Mobile App', category: 'Tech', description: 'Apps like WhatsApp, Instagram, or Uber' },
+    { id: 'mobileapp', emoji: '📱', label: 'Mobile App', category: 'Tech', description: 'Apps for smartphones and tablets' },
+    { id: 'whatsapp', emoji: '💚', label: 'WhatsApp', category: 'Social', description: 'WhatsApp messaging and business integration' },
+    { id: 'tiktok', emoji: '🎵', label: 'TikTok', category: 'Social', description: 'Short video content and viral trends' },
+    { id: 'instagram', emoji: '📷', label: 'Instagram', category: 'Social', description: 'Photo sharing and stories' },
+    { id: 'gaming', emoji: '🎮', label: 'Gaming', category: 'Fun', description: 'Mobile games and esports' },
+    { id: 'memes', emoji: '😂', label: 'Memes & Comedy', category: 'Fun', description: 'Funny content and viral jokes' },
+    { id: 'dating', emoji: '💕', label: 'Dating App', category: 'Social', description: 'Find love and relationships online' },
+    { id: 'nft', emoji: '🎨', label: 'NFTs', category: 'Crypto', description: 'Digital art and collectibles' },
     { id: 'onlinepayment', emoji: '💳', label: 'Online Payment', category: 'Money', description: 'Like POS, bank transfers, or mobile money' },
     { id: 'delivery', emoji: '🛵', label: 'Delivery Service', category: 'Transport', description: 'Like Jumia delivery or motorcycle dispatch' },
-    { id: 'socialmedia', emoji: '📸', label: 'Social Media', category: 'Social', description: 'Like TikTok, Instagram, or Twitter' },
+    { id: 'socialmedia', emoji: '📸', label: 'Social Media', category: 'Social', description: 'Like Facebook, Twitter, or LinkedIn' },
     { id: 'onlineshopping', emoji: '🛒', label: 'Online Shopping', category: 'Shopping', description: 'Like Jumia, Konga, or online markets' },
     { id: 'videochat', emoji: '📹', label: 'Video Chat', category: 'Communication', description: 'Like Zoom, WhatsApp video, or Google Meet' },
     { id: 'onlinelearning', emoji: '📚', label: 'Online Learning', category: 'Education', description: 'Like YouTube tutorials or online courses' },
@@ -61,6 +68,14 @@ export const gameConfig = {
     { id: 'translation', emoji: '🗣️', label: 'Language Help', category: 'Communication', description: 'Translation between English, Igbo, Yoruba, Hausa' },
     { id: 'weather', emoji: '🌤️', label: 'Weather Info', category: 'Information', description: 'Weather updates and farming forecasts' },
     { id: 'news', emoji: '📰', label: 'News & Info', category: 'Information', description: 'Local news, sports updates, or community info' },
+    { id: 'podcast', emoji: '🎙️', label: 'Podcasts', category: 'Entertainment', description: 'Audio shows and storytelling' },
+    { id: 'youtube', emoji: '▶️', label: 'YouTube', category: 'Entertainment', description: 'Video content and tutorials' },
+    { id: 'snapchat', emoji: '👻', label: 'Snapchat', category: 'Social', description: 'Disappearing messages and AR filters' },
+    { id: 'clubhouse', emoji: '🏠', label: 'Clubhouse', category: 'Social', description: 'Audio-based social networking' },
+    { id: 'discord', emoji: '💬', label: 'Discord', category: 'Social', description: 'Community chat and voice channels' },
+    { id: 'metaverse', emoji: '🌐', label: 'Metaverse', category: 'VR/AR', description: 'Virtual worlds and digital spaces' },
+    { id: 'livestream', emoji: '🔴', label: 'Live Streaming', category: 'Entertainment', description: 'Broadcast live video content' },
+    { id: 'influencer', emoji: '⭐', label: 'Influencer Marketing', category: 'Marketing', description: 'Creator economy and brand deals' },
     
     // AI & Advanced Tech
     { id: 'ai', emoji: '🤖', label: 'AI Assistant', category: 'AI', description: 'Smart AI that helps with tasks and answers questions' },

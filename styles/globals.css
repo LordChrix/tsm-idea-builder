@@ -476,7 +476,8 @@ body::after {
 
 .instruction-number {
     background: var(--white);
-    color: var(--primary);
+    color: #333333;
+    border: 2px solid var(--primary);
     width: 28px;
     height: 28px;
     border-radius: 50%;

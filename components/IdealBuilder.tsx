@@ -132,6 +132,91 @@ const IdeaBuilder: React.FC = () => {
     }
   };
 
+  const createRocketAnimation = () => {
+    // Create rocket element
+    const rocket = document.createElement('div');
+    rocket.innerHTML = '🚀';
+    rocket.style.cssText = `
+      position: fixed;
+      font-size: 80px;
+      z-index: 10000;
+      left: -150px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      animation: rocket-fly 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+      filter: drop-shadow(0 0 30px rgba(255, 100, 0, 1)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.6));
+    `;
+    
+    // Create flame trail
+    const trail = document.createElement('div');
+    trail.style.cssText = `
+      position: fixed;
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 100, 0, 0.8) 30%, rgba(255, 200, 0, 1) 100%);
+      z-index: 9999;
+      left: -200px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: trail-fly 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+    `;
+    
+    // Add CSS animation if not already present
+    if (!document.querySelector('#rocket-animation-style')) {
+      const style = document.createElement('style');
+      style.id = 'rocket-animation-style';
+      style.textContent = `
+        @keyframes rocket-fly {
+          0% {
+            left: -150px;
+            transform: translateY(-50%) rotate(45deg) scale(0.8);
+            filter: drop-shadow(0 0 30px rgba(255, 100, 0, 1)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.6));
+          }
+          30% {
+            transform: translateY(-50%) rotate(45deg) scale(1.3);
+            filter: drop-shadow(0 0 40px rgba(255, 100, 0, 1)) drop-shadow(0 0 80px rgba(255, 200, 0, 0.8));
+          }
+          100% {
+            left: calc(100% + 150px);
+            transform: translateY(-50%) rotate(45deg) scale(0.9);
+            filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.6)) drop-shadow(0 0 40px rgba(255, 200, 0, 0.4));
+          }
+        }
+        
+        @keyframes trail-fly {
+          0% {
+            left: -400px;
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            left: calc(100% + 50px);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(trail);
+    document.body.appendChild(rocket);
+    
+    // Remove elements after animation
+    setTimeout(() => {
+      if (rocket.parentNode) {
+        document.body.removeChild(rocket);
+      }
+      if (trail.parentNode) {
+        document.body.removeChild(trail);
+      }
+    }, 900);
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     
@@ -161,6 +246,9 @@ const IdeaBuilder: React.FC = () => {
       
       // Call AI generation
       await generateStartupIdea();
+      
+      // Launch rocket animation after successful generation
+      createRocketAnimation();
       
       // Check for achievements
       const achievement = gameConfig.achievements.find(a => a.count === gameState.stats.ideasCount + 1);

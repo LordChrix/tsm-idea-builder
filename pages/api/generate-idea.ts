@@ -57,17 +57,18 @@ export default async function handler(
     // Create a focused prompt for the AI model
     const prompt = `Create a startup idea using these technologies: ${componentsText}
 
-Focus on Nigerian market context but with global appeal:
-- Name: Creative tech startup name (can reference Nigerian cities/culture)
+Focus on African market context with global potential:
+- Name: Creative tech startup name (can reference African cities/culture)
 - Tagline: Catchy, professional tagline with emoji (English only, no pidgin)
-- Description: MAXIMUM 40 words. Address real problems relevant to Nigerian users with solutions and Naira pricing
-- Consider: Lagos traffic, mobile money, farming challenges, banking access, education gaps, healthcare needs
+- Description: MAXIMUM 40 words. Address real problems with innovative solutions and Naira pricing
+- Consider diverse challenges: urban transport, digital payments, agriculture, financial inclusion, education access, healthcare delivery, e-commerce, renewable energy
+- Reference various locations: Abuja, Port Harcourt, Kano, Ibadan, Accra, Nairobi, Cairo, Johannesburg, or broader African/global markets
 - Use clear, professional English throughout
 - Include specific Naira pricing where relevant
 - Valuation: Between 50000000 and 15000000000 (₦50M-₦15B)
-- Jollof Rating: 6-10 (appeal level for Nigerian market)
+- Jollof Rating: 6-10 (appeal level for target market)
 - Funding Stage: Pre-seed, Seed Round, Series A, or Series B
-- Market Size: Population context (e.g., "25M Lagos residents", "180M mobile users")
+- Market Size: Diverse contexts (e.g., "15M Abuja metro", "350M African youth", "2B global users", "50M SMEs in Africa")
 
 CRITICAL: Description must be exactly 40 words or less. Be concise and impactful.
 
@@ -79,7 +80,7 @@ Respond ONLY with this JSON format:
   "valuation": 500000000,
   "jollofRating": 8,
   "fundingStage": "Seed Round",
-  "marketSize": "25M Lagos residents"
+  "marketSize": "15M Abuja metro"
 }`;
 
     // Call Hugging Face Chat Completions API with Fireworks
@@ -172,12 +173,12 @@ function createFallbackIdea(components: string[], aiText: string): GenerateIdeaR
     valuation: Math.floor(Math.random() * (3000000000 - 100000000)) + 100000000,
     jollofRating: Math.floor(Math.random() * 3) + 7,
     fundingStage: ['Pre-seed', 'Seed Round', 'Series A'][Math.floor(Math.random() * 3)],
-    marketSize: ['220M Nigerians nationwide', '25M Lagos residents', '70M young people (18-35)'][Math.floor(Math.random() * 3)]
+    marketSize: ['350M African youth', '15M Abuja metro', '50M SMEs in Africa', '2B emerging market users', '100M mobile payment users'][Math.floor(Math.random() * 5)]
   };
 }
 
 function generateFallbackName(components: string[]): string {
-  const prefixes = ['Naija', 'Lagos', 'Smart', 'Swift', 'Bright'];
+  const prefixes = ['Swift', 'Smart', 'Quick', 'Bright', 'Nova', 'Flex'];
   const suffixes = ['Tech', 'Hub', 'Labs', 'Connect', 'Flow'];
   
   const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
