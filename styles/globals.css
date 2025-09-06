@@ -313,28 +313,27 @@ body::after {
 }
 
 .fresh-start-btn {
-    background: var(--surface);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
+    background: var(--accent);
+    border: none;
+    color: var(--text-on-primary);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .fresh-start-btn:hover {
-    background: var(--surface-bright);
-    border-color: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    background: var(--warning);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-lg);
 }
 
 /* Stats Cards */
@@ -1067,14 +1066,17 @@ body::after {
 }
 
 .startup-count {
-    background: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
+    background: var(--primary);
+    color: var(--text-on-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-left: 0.5rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: none;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .idea-card {
@@ -1292,7 +1294,9 @@ body::after {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1308,13 +1312,17 @@ body::after {
 }
 
 .achievement-modal {
-    background: var(--white);
+    background: var(--surface-bright);
+    backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+    -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+    border: 1px solid var(--glass-border);
     border-radius: 24px;
     padding: 2.5rem;
     max-width: 400px;
     text-align: center;
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: var(--shadow-xl);
 }
 
 .modal-overlay.active .achievement-modal {
@@ -1334,13 +1342,15 @@ body::after {
 .achievement-title {
     font-size: 2rem;
     font-weight: 800;
-    color: var(--dark);
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
+    text-shadow: none;
 }
 
 .achievement-message {
-    color: var(--gray-600);
+    color: var(--text-secondary);
     font-size: 1.125rem;
+    font-weight: 500;
 }
 
 /* Responsive Design */
