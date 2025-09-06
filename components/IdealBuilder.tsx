@@ -103,42 +103,124 @@ const IdeaBuilder: React.FC = () => {
   };
 
   const submitLeadForm = async () => {
-    if (!leadForm.name || !leadForm.email || !leadForm.phone) {
-      alert('Please fill in all fields');
+    // Validate form fields
+    if (!leadForm.name?.trim() || !leadForm.email?.trim() || !leadForm.phone?.trim()) {
+      // Show proper error notification instead of alert
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-error">
+          <span class="toast-icon">❌</span>
+          <span class="toast-message">Please fill in all required fields</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(leadForm.email)) {
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-error">
+          <span class="toast-icon">❌</span>
+          <span class="toast-message">Please enter a valid email address</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
       return;
     }
     
-    // Here you would normally send the lead data to your backend
-    console.log('Lead submitted:', leadForm, 'Blueprint:', selectedBlueprint);
-    
-    // Show success message
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.innerHTML = `
-      <div class="toast-content toast-success">
-        <span class="toast-icon">✅</span>
-        <span class="toast-message">Thank you! We'll contact you within 24 hours.</span>
-      </div>
-    `;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.classList.add('toast-show');
-    }, 100);
-    
-    setTimeout(() => {
-      toast.classList.remove('toast-show');
+    try {
+      // Here you would normally send the lead data to your backend
+      console.log('Lead submitted:', leadForm, 'Blueprint:', selectedBlueprint);
+      
+      // Show success message with improved styling
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-success">
+          <span class="toast-icon">✅</span>
+          <span class="toast-message">
+            <strong>Success!</strong> We'll contact you within 24 hours to discuss your "${selectedBlueprint?.name || 'business'}" blueprint.
+          </span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
       setTimeout(() => {
-        if (toast.parentNode) {
-          document.body.removeChild(toast);
-        }
-      }, 300);
-    }, 3000);
-    
-    // Reset form and close modal
-    setLeadForm({ name: '', email: '', phone: '' });
-    setShowConsultationModal(false);
-    setSelectedBlueprint(null);
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 4000);
+      
+      // Reset form and close modal
+      setLeadForm({ name: '', email: '', phone: '' });
+      setShowConsultationModal(false);
+      setSelectedBlueprint(null);
+      
+    } catch (error) {
+      console.error('Error submitting lead form:', error);
+      
+      // Show error message
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-error">
+          <span class="toast-icon">❌</span>
+          <span class="toast-message">Something went wrong. Please try again.</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+    }
   };
 
   // Close dropdown when clicking outside
@@ -620,93 +702,16 @@ const IdeaBuilder: React.FC = () => {
 
   const getComponentIcon = (componentId: string) => {
     const iconMap: { [key: string]: keyof typeof TechIcons } = {
-      // Tech & Mobile
-      'mobileapp': 'mobile',
-      'edgecomputing': 'edgecomputing',
-      'cloudbackup': 'cloud',
-      
-      // Payment & Finance
-      'onlinepayment': 'payment',
-      'cryptocurrency': 'cryptocurrency',
-      'blockchain': 'blockchain',
-      
-      // Transport & Delivery
-      'delivery': 'delivery',
-      'rideshare': 'rideshare',
-      'drones': 'drone',
-      
-      // Communication & Social
-      'socialmedia': 'social',
-      'videochat': 'videochat',
-      'messaging': 'messaging',
-      'translation': 'translation',
-      
-      // Shopping & Commerce  
-      'onlineshopping': 'shopping',
-      
-      // Education & Learning
-      'onlinelearning': 'learning',
-      
-      // Services & Booking
-      'bookingapp': 'booking',
-      
-      // Food & Agriculture
-      'foodorder': 'food',
-      'farming': 'farming',
-      
-      // Healthcare
-      'healthcare': 'healthcare',
-      
-      // Real Estate & Housing
-      'realestate': 'realestate',
-      
-      // Entertainment & Media
-      'entertainment': 'entertainment',
-      'music': 'music',
-      
-      // Sports & Fitness
-      'sports': 'sports',
-      
-      // Fashion & Style
-      'fashion': 'fashion',
-      
-      // Security & Safety
-      'security': 'security',
+      // Current component IDs from GameConfig.ts
+      'storefront': 'shopping',
+      'payments': 'payment',
+      'logistics': 'delivery',
+      'chat': 'messaging',
+      'ai-insights': 'ai',
+      'mobile-app': 'mobile',
+      'cloud-hosting': 'cloud',
       'cybersecurity': 'cybersecurity',
-      'biometrics': 'biometrics',
-      
-      // Utilities & Power
-      'generator': 'generator',
-      
-      // Information & News
-      'news': 'news',
-      'weather': 'weather',
-      
-      // AI & Automation
-      'ai': 'ai',
-      'chatbot': 'chatbot',
-      'voiceassistant': 'voiceassistant',
-      'facerecognition': 'facerecognition',
-      'dataanalytics': 'dataanalytics',
-      'automation': 'automation',
-      'computervision': 'computervision',
-      'nlp': 'nlp',
-      
-      // IoT & Hardware
-      'iot': 'iot',
-      'robotics': 'robotics',
-      '3dprinting': 'printing3d',
-      
-      // VR/AR
-      'vr': 'vr',
-      'ar': 'ar',
-      
-      // Development & API
-      'api': 'api',
-      'microservices': 'microservices',
-      
-      // Advanced Computing
-      'quantum': 'quantum'
+      'social-media': 'social'
     };
 
     const IconComponent = TechIcons[iconMap[componentId] || 'default'];
@@ -720,37 +725,32 @@ const IdeaBuilder: React.FC = () => {
       <header className="header">
         <div className="logo-container">
           <div className="tsm-logo">
-            {/* Responsive TSM House Agency Logo */}
+            {/* TSM House Agency Logo */}
             <picture>
-              <source 
-                media="(max-width: 767px)" 
-                srcSet="/images/tsm-logo-small.webp" 
-                type="image/webp" 
-              />
               <source 
                 media="(max-width: 767px)" 
                 srcSet="https://tsmhouse.agency/wp-content/uploads/2025/07/TSM-house-logomark.png" 
               />
               <source 
-                media="(min-width: 768px) and (max-width: 1023px)" 
-                srcSet="/images/tsm-logo-medium.webp" 
-                type="image/webp" 
-              />
-              <source 
-                media="(min-width: 768px) and (max-width: 1023px)" 
+                media="(min-width: 768px)" 
                 srcSet="https://tsmhouse.agency/wp-content/uploads/2025/07/cropped-TSM-house.png" 
-              />
-              <source 
-                media="(min-width: 1024px)" 
-                srcSet="/images/tsm-logo-large.webp" 
-                type="image/webp" 
               />
               <img 
                 src="https://tsmhouse.agency/wp-content/uploads/2025/07/cropped-TSM-house.png"
-                alt="TSM House Agency Logo"
+                alt="TSM House Agency - Biz Blueprint Builder"
                 className="tsm-logo-img"
-                width="120"
-                height="60"
+                loading="eager"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="tsm-logo-fallback">TSM House Agency</div>';
+                  }
+                }}
+                onLoad={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.opacity = '1';
+                }}
               />
             </picture>
           </div>

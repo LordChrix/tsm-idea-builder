@@ -122,13 +122,16 @@ const useGameLogic = () => {
 
   const addComponent = useCallback((component: Component) => {
     if (gameState.droppedComponents.find(c => c.id === component.id)) {
-      // Show duplicate notification
+      // Show enhanced duplicate notification
       const toast = document.createElement('div');
-      toast.className = 'toast-notification';
+      toast.className = 'toast-notification enhanced-notification';
       toast.innerHTML = `
         <div class="toast-content toast-warning">
-          <span class="toast-icon">⚠️</span>
-          <span class="toast-message">You already have ${component.label} in your idea!</span>
+          <div class="toast-header">
+            <span class="toast-icon">⚠️</span>
+            <span class="toast-title">Already Added</span>
+          </div>
+          <span class="toast-message"><strong>${component.label}</strong> is already in your business blueprint</span>
         </div>
       `;
       document.body.appendChild(toast);
@@ -163,13 +166,16 @@ const useGameLogic = () => {
       navigator.vibrate(50);
     }
     
-    // Show success notification
+    // Show enhanced success notification
     const toast = document.createElement('div');
-    toast.className = 'toast-notification';
+    toast.className = 'toast-notification enhanced-notification';
     toast.innerHTML = `
       <div class="toast-content toast-success">
-        <span class="toast-icon">✅</span>
-        <span class="toast-message">${component.label} added to your startup!</span>
+        <div class="toast-header">
+          <span class="toast-icon">🚀</span>
+          <span class="toast-title">Component Added!</span>
+        </div>
+        <span class="toast-message"><strong>${component.label}</strong> is now part of your business blueprint</span>
       </div>
     `;
     document.body.appendChild(toast);
