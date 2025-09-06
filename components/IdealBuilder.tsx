@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import Lottie from 'lottie-react';
 import { gameConfig } from './GameConfig';
 import useGameLogic from '../hooks/useGameLogic';
 import LottieIcon from './LottieIcon';
@@ -40,11 +42,17 @@ const IdeaBuilder: React.FC = () => {
   const [generationStep, setGenerationStep] = useState('');
   const [showAchievement, setShowAchievement] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState<{title: string, message: string} | null>(null);
-  const [draggedComponent, setDraggedComponent] = useState<string | null>(null);
-  const [isDragOver, setIsDragOver] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const [activeShareDropdown, setActiveShareDropdown] = useState<number | null>(null);
+  const [showConsultationModal, setShowConsultationModal] = useState(false);
+  const [selectedBlueprint, setSelectedBlueprint] = useState<any>(null);
+  const [leadForm, setLeadForm] = useState({ name: '', email: '', phone: '' });
+  
+  // Animation system state
+  const [showAnimationOverlay, setShowAnimationOverlay] = useState(false);
+  const [currentAnimation, setCurrentAnimation] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Detect touch device on component mount
   useEffect(() => {
@@ -89,6 +97,148 @@ const IdeaBuilder: React.FC = () => {
     setActiveShareDropdown(activeShareDropdown === ideaId ? null : ideaId);
   };
 
+  const downloadBlueprint = async (idea: any) => {
+    try {
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF();
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.setTextColor(0, 122, 255);
+      doc.text(idea.name, 20, 20);
+      
+      // Add sections
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      
+      let yPosition = 40;
+      
+      // Executive Summary
+      doc.setFont(undefined, 'bold');
+      doc.text('Executive Summary', 20, yPosition);
+      doc.setFont(undefined, 'normal');
+      yPosition += 10;
+      const summaryLines = doc.splitTextToSize(idea.executiveSummary, 170);
+      doc.text(summaryLines, 20, yPosition);
+      yPosition += summaryLines.length * 7 + 10;
+      
+      // Market Opportunity
+      doc.setFont(undefined, 'bold');
+      doc.text('Market Opportunity', 20, yPosition);
+      doc.setFont(undefined, 'normal');
+      yPosition += 10;
+      const marketLines = doc.splitTextToSize(idea.marketOpportunity, 170);
+      doc.text(marketLines, 20, yPosition);
+      yPosition += marketLines.length * 7 + 10;
+      
+      // Revenue Model
+      doc.setFont(undefined, 'bold');
+      doc.text('Revenue Model', 20, yPosition);
+      doc.setFont(undefined, 'normal');
+      yPosition += 10;
+      const revenueLines = doc.splitTextToSize(idea.revenueModel, 170);
+      doc.text(revenueLines, 20, yPosition);
+      yPosition += revenueLines.length * 7 + 10;
+      
+      // Key Features
+      doc.setFont(undefined, 'bold');
+      doc.text('Key Features', 20, yPosition);
+      doc.setFont(undefined, 'normal');
+      yPosition += 10;
+      const featuresLines = doc.splitTextToSize(idea.keyFeatures, 170);
+      doc.text(featuresLines, 20, yPosition);
+      yPosition += featuresLines.length * 7 + 10;
+      
+      // Next Steps
+      doc.setFont(undefined, 'bold');
+      doc.text('Next Steps', 20, yPosition);
+      doc.setFont(undefined, 'normal');
+      yPosition += 10;
+      const stepsLines = doc.splitTextToSize(idea.nextSteps, 170);
+      doc.text(stepsLines, 20, yPosition);
+      yPosition += stepsLines.length * 7 + 10;
+      
+      // Call to Action
+      doc.setFont(undefined, 'italic');
+      doc.setTextColor(0, 122, 255);
+      const ctaLines = doc.splitTextToSize(idea.callToAction, 170);
+      doc.text(ctaLines, 20, yPosition);
+      
+      // Save the PDF
+      doc.save(`${idea.name.replace(/\s+/g, '_')}_Blueprint.pdf`);
+      
+      // Show success message
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-success">
+          <span class="toast-icon">✅</span>
+          <span class="toast-message">Blueprint downloaded successfully!</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+    } catch (error) {
+      console.error('Error downloading blueprint:', error);
+    }
+  };
+
+  const openConsultationModal = (idea: any) => {
+    setSelectedBlueprint(idea);
+    setShowConsultationModal(true);
+  };
+
+  const submitLeadForm = async () => {
+    if (!leadForm.name || !leadForm.email || !leadForm.phone) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    // Here you would normally send the lead data to your backend
+    console.log('Lead submitted:', leadForm, 'Blueprint:', selectedBlueprint);
+    
+    // Show success message
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+      <div class="toast-content toast-success">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message">Thank you! We'll contact you within 24 hours.</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.add('toast-show');
+    }, 100);
+    
+    setTimeout(() => {
+      toast.classList.remove('toast-show');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 3000);
+    
+    // Reset form and close modal
+    setLeadForm({ name: '', email: '', phone: '' });
+    setShowConsultationModal(false);
+    setSelectedBlueprint(null);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
@@ -99,36 +249,20 @@ const IdeaBuilder: React.FC = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const handleDragStart = (e: React.DragEvent, componentId: string) => {
-    setDraggedComponent(componentId);
-    e.dataTransfer.effectAllowed = 'copy';
-    e.dataTransfer.setData('componentId', componentId);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedComponent(null);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-      setIsDragOver(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const componentId = e.dataTransfer.getData('componentId');
-    const component = gameConfig.components.find(c => c.id === componentId);
+  const handleDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
     
-    if (component) {
-      addComponent(component);
+    // If dropped outside a droppable area
+    if (!destination) {
+      return;
+    }
+    
+    // If dropped in the drop zone
+    if (destination.droppableId === 'drop-zone' && source.droppableId === 'components') {
+      const component = gameConfig.components.find(c => c.id === draggableId);
+      if (component) {
+        addComponent(component);
+      }
     }
   };
 
@@ -292,37 +426,223 @@ const IdeaBuilder: React.FC = () => {
     }, 1900);
   };
 
-  const handleGenerate = async () => {
-    setIsGenerating(true);
-    
-    // Add visual feedback to stats
-    const statElements = document.querySelectorAll('.stat-value');
-    statElements.forEach(el => el.classList.add('updating'));
-    
-    // Show AI-powered generation steps for better UX
-    const steps = [
-      'Analyzing components...',
-      'Connecting to AI brain...',
-      'Researching Nigerian market...',
-      'AI generating creative ideas...',
-      'Calculating realistic valuation...',
-      'Finalizing your startup!'
-    ];
-    
+  // Lottie Animation Array for Dynamic System
+  const lottieAnimations = [
+    '/lottie/blueprint-unfold.json',
+    '/lottie/tsm-trophy-spin.json', 
+    '/lottie/dynamic-rocket-launch.json'
+  ];
+
+  // Enhanced PDF Download with better formatting and branding
+  const downloadBlueprint = async (idea: any) => {
     try {
-      // Show loading steps
-      for (let i = 0; i < steps.length - 1; i++) {
-        setGenerationStep(steps[i]);
-        await new Promise(resolve => setTimeout(resolve, 600));
+      setIsLoading(true);
+      
+      // Dynamic import to reduce bundle size
+      const { jsPDF } = await import('jspdf');
+      const html2canvas = (await import('html2canvas')).default;
+      
+      const doc = new jsPDF();
+      
+      // TSM House Agency Branding Header
+      doc.setFillColor(6, 182, 212); // Cyan-500
+      doc.rect(0, 0, 210, 25, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TSM House Agency', 20, 16);
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Business Blueprint Generator', 140, 16);
+      
+      // Reset text color for content
+      doc.setTextColor(0, 0, 0);
+      
+      // Blueprint Title
+      doc.setFontSize(24);
+      doc.setFont('helvetica', 'bold');
+      doc.text(idea.name, 20, 45);
+      
+      // Generate timestamp
+      const currentDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric'
+      });
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated on ${currentDate}`, 20, 52);
+      
+      let yPosition = 65;
+      
+      // Executive Summary Section
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Executive Summary', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      const summaryLines = doc.splitTextToSize(idea.executiveSummary, 170);
+      doc.text(summaryLines, 20, yPosition);
+      yPosition += summaryLines.length * 5 + 15;
+      
+      // Market Opportunity Section
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Market Opportunity', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      const marketLines = doc.splitTextToSize(idea.marketOpportunity, 170);
+      doc.text(marketLines, 20, yPosition);
+      yPosition += marketLines.length * 5 + 15;
+      
+      // Revenue Model Section
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Revenue Model', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      const revenueLines = doc.splitTextToSize(idea.revenueModel, 170);
+      doc.text(revenueLines, 20, yPosition);
+      yPosition += revenueLines.length * 5 + 15;
+      
+      // Check if we need a new page
+      if (yPosition > 250) {
+        doc.addPage();
+        yPosition = 30;
       }
       
-      // Final step while AI generates
-      setGenerationStep(steps[steps.length - 1]);
+      // Key Features Section
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Key Features', 20, yPosition);
+      yPosition += 10;
       
-      // Call AI generation
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      const featuresLines = doc.splitTextToSize(idea.keyFeatures, 170);
+      doc.text(featuresLines, 20, yPosition);
+      yPosition += featuresLines.length * 5 + 15;
+      
+      // Next Steps Section
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Next Steps', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      const stepsLines = doc.splitTextToSize(idea.nextSteps, 170);
+      doc.text(stepsLines, 20, yPosition);
+      yPosition += stepsLines.length * 5 + 20;
+      
+      // Call to Action Section (Highlighted Box)
+      if (yPosition > 260) {
+        doc.addPage();
+        yPosition = 30;
+      }
+      
+      doc.setFillColor(240, 253, 250); // Light cyan background
+      doc.rect(15, yPosition - 5, 180, 25, 'F');
+      doc.setDrawColor(6, 182, 212);
+      doc.rect(15, yPosition - 5, 180, 25, 'S');
+      
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(6, 182, 212);
+      doc.text('Ready to Get Started?', 20, yPosition + 5);
+      
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0);
+      const ctaLines = doc.splitTextToSize(idea.callToAction, 170);
+      doc.text(ctaLines, 20, yPosition + 15);
+      
+      // Footer
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text('Generated by TSM House Agency - Business Blueprint Builder', 20, 285);
+      doc.text('Visit: https://tsmhouse.agency', 140, 285);
+      
+      // Save the PDF
+      doc.save(`${idea.name.replace(/\s+/g, '_')}_Business_Blueprint.pdf`);
+      
+      // Show success notification
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-success">
+          <span class="toast-icon">📄</span>
+          <span class="toast-message">Blueprint PDF downloaded successfully!</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+      
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      
+      // Show error notification
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-warning">
+          <span class="toast-icon">⚠️</span>
+          <span class="toast-message">PDF download failed. Please try again.</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Animation completion callback
+  const onAnimationComplete = useCallback(async () => {
+    // After animation completes, proceed with AI generation
+    try {
       await generateStartupIdea();
       
-      // Launch rocket animation after successful generation
+      // Hide animation overlay after successful generation
+      setShowAnimationOverlay(false);
+      setCurrentAnimation(null);
+      
+      // Launch celebration effects
       createRocketAnimation();
       
       // Check for achievements
@@ -336,7 +656,10 @@ const IdeaBuilder: React.FC = () => {
     } catch (error) {
       console.error('Generation failed:', error);
       
-      // Show error message to user
+      // Hide animation and show error
+      setShowAnimationOverlay(false);
+      setCurrentAnimation(null);
+      
       const toast = document.createElement('div');
       toast.className = 'toast-notification';
       toast.innerHTML = `
@@ -359,16 +682,29 @@ const IdeaBuilder: React.FC = () => {
           }
         }, 300);
       }, 3000);
-      
     } finally {
+      setIsLoading(false);
       setIsGenerating(false);
-      setGenerationStep('');
-      
-      // Remove visual feedback
-      setTimeout(() => {
-        statElements.forEach(el => el.classList.remove('updating'));
-      }, 500);
     }
+  }, [generateStartupIdea, gameState.stats.ideasCount, createRocketAnimation]);
+
+  const handleGenerate = async () => {
+    setIsGenerating(true);
+    setIsLoading(true);
+    
+    // Immediately show animation overlay and select random animation
+    setShowAnimationOverlay(true);
+    const randomAnimation = lottieAnimations[Math.floor(Math.random() * lottieAnimations.length)];
+    setCurrentAnimation(randomAnimation);
+    
+    // Add visual feedback to stats
+    const statElements = document.querySelectorAll('.stat-value');
+    statElements.forEach(el => el.classList.add('updating'));
+    
+    // Simulate animation duration and trigger AI generation after completion (3 seconds)
+    setTimeout(() => {
+      onAnimationComplete();
+    }, 3000);
   };
 
   const formatCurrency = (amount: number): string => {
@@ -476,23 +812,61 @@ const IdeaBuilder: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <div className="container">
       {/* Header */}
       <header className="header">
         <div className="logo-container">
-          <div className="logo-icon">
-            <LottieIcon 
-              src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" 
-              width={60} 
-              height={60}
-              fallback={<span className="animate-bounce">🚀</span>}
-            />
+          <div className="tsm-logo">
+            {/* Responsive TSM House Agency Logo */}
+            <picture>
+              <source 
+                media="(max-width: 767px)" 
+                srcSet="/images/tsm-logo-small.webp" 
+                type="image/webp" 
+              />
+              <source 
+                media="(max-width: 767px)" 
+                srcSet="https://tsmhouse.agency/wp-content/uploads/2025/07/TSM-house-logomark.png" 
+              />
+              <source 
+                media="(min-width: 768px) and (max-width: 1023px)" 
+                srcSet="/images/tsm-logo-medium.webp" 
+                type="image/webp" 
+              />
+              <source 
+                media="(min-width: 768px) and (max-width: 1023px)" 
+                srcSet="https://tsmhouse.agency/wp-content/uploads/2025/07/cropped-TSM-house.png" 
+              />
+              <source 
+                media="(min-width: 1024px)" 
+                srcSet="/images/tsm-logo-large.webp" 
+                type="image/webp" 
+              />
+              <img 
+                src="https://tsmhouse.agency/wp-content/uploads/2025/07/cropped-TSM-house.png"
+                alt="TSM House Agency Logo"
+                className="tsm-logo-img"
+                width="120"
+                height="60"
+              />
+            </picture>
           </div>
-          <h1 className="logo-text">AI TSM Builder Game</h1>
+          <div className="brand-section">
+            <div className="logo-icon">
+              <LottieIcon 
+                src="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json" 
+                width={48} 
+                height={48}
+                fallback={<span className="animate-bounce">🚀</span>}
+              />
+            </div>
+            <h1 className="logo-text">Your Business Idea, Your Digital Blueprint.</h1>
+          </div>
         </div>
-        <p className="tagline">Build Your Next Billion Naira Tech Startup!</p>
+        <p className="tagline">Transform Your Vision Into A Winning Strategy</p>
         <p className="sub-tagline">
-          <span>🇳🇬 From Abuja to the World • Turn Your Ideas Into Reality</span>
+          <span>🚀 Professional Business Blueprints • Powered by AI • Ready in Minutes</span>
           <div className="header-controls">
             <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
               <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
@@ -508,7 +882,7 @@ const IdeaBuilder: React.FC = () => {
       {/* Stats */}
       <div className="stats-grid">
         <div className="stat-card">
-          <div className="stat-label">Ideas Generated</div>
+          <div className="stat-label">Community Blueprints Created</div>
           <div className="stat-value">
             <span className="stat-icon animate-pulse">
               <LottieIcon 
@@ -518,11 +892,11 @@ const IdeaBuilder: React.FC = () => {
                 fallback={<span>💡</span>}
               />
             </span>
-            <span>{gameState.stats.ideasCount}</span>
+            <span>1,234</span>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Valuation Potential</div>
+          <div className="stat-label">Solutions Delivered</div>
           <div className="stat-value">
             <span className="stat-icon animate-bounce">
               <LottieIcon 
@@ -532,14 +906,11 @@ const IdeaBuilder: React.FC = () => {
                 fallback={<span>💰</span>}
               />
             </span>
-            <div className="dual-currency">
-              <span className="currency-main">₦{gameState.stats.totalNaira > 0 ? formatCurrency(gameState.stats.totalNaira) : '0'}</span>
-              <span className="currency-alt">${gameState.stats.totalNaira > 0 ? formatCurrency(Math.round(gameState.stats.totalNaira / 1650)) : '0'}</span>
-            </div>
+            <span>256</span>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Jollof Points</div>
+          <div className="stat-label">Success Stories</div>
           <div className="stat-value">
             <span className="stat-icon animate-wiggle">
               <LottieIcon 
@@ -549,7 +920,7 @@ const IdeaBuilder: React.FC = () => {
                 fallback={<span>🍚</span>}
               />
             </span>
-            <span>{gameState.stats.jollofPoints}</span>
+            <span>89</span>
           </div>
         </div>
         <div className="stat-card">
@@ -579,24 +950,24 @@ const IdeaBuilder: React.FC = () => {
               fallback={<span>🎮</span>}
             />
           </span>
-          <span>How to Play</span>
+          <span>How It Works</span>
         </h2>
         <ol className="instructions-list">
           <li>
             <span className="instruction-number">1</span>
-            <span>Drag tech components from the left panel</span>
+            <span>Pick your business challenge</span>
           </li>
           <li>
             <span className="instruction-number">2</span>
-            <span>Drop at least 2 components in the center</span>
+            <span>Drag and drop the tools you need</span>
           </li>
           <li>
             <span className="instruction-number">3</span>
-            <span>Click Generate to create your startup!</span>
+            <span>Click 'Generate' to see your blueprint</span>
           </li>
           <li>
             <span className="instruction-number">4</span>
-            <span>Share your best ideas with friends!</span>
+            <span>Download & share your plan</span>
           </li>
         </ol>
       </div>
@@ -609,32 +980,40 @@ const IdeaBuilder: React.FC = () => {
             <span>🛠️</span>
             <span>Tech Components</span>
           </h3>
-          <div className="components-grid">
-            {gameConfig.components.map(component => (
-              <div
-                key={component.id}
-                className={`component-card ${draggedComponent === component.id ? 'dragging' : ''} ${
-                  isTouchDevice && selectedComponents.includes(component.id) ? 'selected' : ''
-                }`}
-                draggable={!isTouchDevice}
-                onDragStart={!isTouchDevice ? (e) => handleDragStart(e, component.id) : undefined}
-                onDragEnd={!isTouchDevice ? handleDragEnd : undefined}
-                onClick={isTouchDevice ? () => handleComponentSelect(component.id) : undefined}
-                title={component.description}
-              >
-                <div className="component-icon-wrapper">
-                  {getComponentIcon(component.id)}
-                </div>
-                <div className="component-label">{component.label}</div>
-                {isTouchDevice && (
-                  <div className="mobile-add-indicator">
-                    <span className="add-text">Select</span>
-                    <span className="add-icon">+</span>
-                  </div>
-                )}
+          <Droppable droppableId="components" isDropDisabled={true}>
+            {(provided) => (
+              <div className="components-grid" {...provided.droppableProps} ref={provided.innerRef}>
+                {gameConfig.components.map((component, index) => (
+                  <Draggable key={component.id} draggableId={component.id} index={index} isDragDisabled={isTouchDevice}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`component-card ${snapshot.isDragging ? 'dragging' : ''} ${
+                          isTouchDevice && selectedComponents.includes(component.id) ? 'selected' : ''
+                        }`}
+                        onClick={isTouchDevice ? () => handleComponentSelect(component.id) : undefined}
+                        title={component.description}
+                      >
+                        <div className="component-icon-wrapper">
+                          {getComponentIcon(component.id)}
+                        </div>
+                        <div className="component-label">{component.label}</div>
+                        {isTouchDevice && (
+                          <div className="mobile-add-indicator">
+                            <span className="add-text">Select</span>
+                            <span className="add-icon">+</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
-            ))}
-          </div>
+            )}
+          </Droppable>
         </div>
 
         {/* Drop Zone */}
@@ -645,12 +1024,13 @@ const IdeaBuilder: React.FC = () => {
             {isTouchDevice && <span className="mobile-instruction">(Tap components to add them)</span>}
           </h3>
           <div className="drop-zone-wrapper">
-            <div 
-              className={`drop-zone ${isDragOver ? 'drag-over' : ''} ${isTouchDevice ? 'touch-mode' : ''}`}
-              onDragOver={!isTouchDevice ? handleDragOver : undefined}
-              onDragLeave={!isTouchDevice ? handleDragLeave : undefined}
-              onDrop={!isTouchDevice ? handleDrop : undefined}
-            >
+            <Droppable droppableId="drop-zone">
+              {(provided, snapshot) => (
+                <div 
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={`drop-zone ${snapshot.isDraggingOver ? 'drag-over' : ''} ${isTouchDevice ? 'touch-mode' : ''}`}
+                >
             {gameState.droppedComponents.length === 0 ? (
               <div className="drop-zone-empty">
                 <div className="drop-zone-empty-icon">📦</div>
@@ -698,7 +1078,10 @@ const IdeaBuilder: React.FC = () => {
                 ))}
               </div>
             )}
-            </div>
+            {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
           </div>
           <div className="action-buttons">
             <button 
@@ -726,50 +1109,76 @@ const IdeaBuilder: React.FC = () => {
         <div className="results-panel">
           <h3 className="panel-title">
             <span>💡</span>
-            <span>Your Startups</span>
+            <span>Your Business Blueprints</span>
             <span className="startup-count">({gameState.generatedIdeas.length})</span>
           </h3>
           <div className="results-scroll-container">
             {gameState.generatedIdeas.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-state-icon">🎯</div>
-                <div className="empty-state-text">No startups yet. Start building!</div>
+                <div className="empty-state-text">No blueprints yet. Start building!</div>
               </div>
             ) : (
               gameState.generatedIdeas.map(idea => (
-                <div key={idea.id} className="idea-card-compact">
-                  <div className="idea-main-content">
-                    <div className="idea-header-compact">
-                      <div className="idea-icon">💡</div>
-                      <div className="idea-title-section">
-                        <div className="idea-name">{idea.name}</div>
-                        <div className="idea-tagline">&ldquo;{idea.tagline}&rdquo;</div>
+                <div key={idea.id} className="blueprint-card">
+                  <div className="blueprint-header">
+                    <div className="blueprint-icon">📋</div>
+                    <div className="blueprint-title">
+                      <h3>{idea.name}</h3>
+                      <div className="blueprint-components">
+                        {idea.components.map((comp, idx) => (
+                          <span key={idx} className="component-tag">{comp}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="blueprint-content">
+                    <div className="blueprint-section">
+                      <h4>Executive Summary</h4>
+                      <p>{idea.executiveSummary}</p>
+                    </div>
+                    
+                    <div className="blueprint-grid">
+                      <div className="blueprint-section">
+                        <h4>📊 Market Opportunity</h4>
+                        <p>{idea.marketOpportunity}</p>
+                      </div>
+                      <div className="blueprint-section">
+                        <h4>💰 Revenue Model</h4>
+                        <p>{idea.revenueModel}</p>
                       </div>
                     </div>
                     
-                    <div className="idea-description-compact">{idea.description}</div>
+                    <div className="blueprint-section">
+                      <h4>⚡ Key Features</h4>
+                      <p>{idea.keyFeatures}</p>
+                    </div>
                     
-                    <div className="idea-stats-compact">
-                      <div className="idea-stat-compact valuation">
-                        <span className="stat-icon">💰</span>
-                        <span className="stat-label">Valuation</span>
-                        <span className="stat-value-compact">₦{formatCurrency(idea.valuation)}</span>
-                      </div>
-                      <div className="idea-stat-compact jollof">
-                        <span className="stat-icon">🍚</span>
-                        <span className="stat-label">Jollof Rating</span>
-                        <span className="stat-value-compact">{idea.jollofRating}/10</span>
-                      </div>
-                      <div className="idea-stat-compact funding">
-                        <span className="stat-icon">📈</span>
-                        <span className="stat-label">Stage</span>
-                        <span className="stat-value-compact">{idea.fundingStage}</span>
-                      </div>
-                      <div className="idea-stat-compact market">
-                        <span className="stat-icon">🎯</span>
-                        <span className="stat-label">Market Size</span>
-                        <span className="stat-value-compact">{idea.marketSize}</span>
-                      </div>
+                    <div className="blueprint-section">
+                      <h4>🚀 Next Steps</h4>
+                      <p>{idea.nextSteps}</p>
+                    </div>
+                    
+                    <div className="blueprint-cta">
+                      <p className="cta-text">{idea.callToAction}</p>
+                    </div>
+                    
+                    <div className="blueprint-actions">
+                      <button 
+                        className="btn-download"
+                        onClick={() => downloadBlueprint(idea)}
+                      >
+                        <span>📥</span>
+                        <span>Download Blueprint</span>
+                      </button>
+                      <button 
+                        className="btn-consultation"
+                        onClick={() => openConsultationModal(idea)}
+                      >
+                        <span>💼</span>
+                        <span>Get Free Consultation</span>
+                      </button>
                     </div>
                   </div>
                   
@@ -843,13 +1252,114 @@ const IdeaBuilder: React.FC = () => {
         </div>
       </div>
 
+      {/* Dynamic Animation Overlay */}
+      {showAnimationOverlay && (
+        <div className="animation-overlay">
+          <div className="animation-content">
+            <div className="animation-wrapper">
+              {currentAnimation && (
+                <div className="blueprint-animation">
+                  {currentAnimation.includes('blueprint-unfold') && (
+                    <div className="blueprint-unfold-animation">📋</div>
+                  )}
+                  {currentAnimation.includes('tsm-trophy') && (
+                    <div className="trophy-spin-animation">🏆</div>
+                  )}
+                  {currentAnimation.includes('rocket-launch') && (
+                    <div className="rocket-launch-animation">🚀</div>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="animation-text">
+              <h3>Creating Your Blueprint</h3>
+              <p>AI is crafting your perfect business strategy...</p>
+              <div className="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Achievement Modal */}
       <AchievementModal
         show={showAchievement}
         achievement={currentAchievement}
         onClose={() => setShowAchievement(false)}
       />
-    </div>
+
+      {/* Consultation Modal */}
+      {showConsultationModal && (
+        <div className="modal-overlay" onClick={() => setShowConsultationModal(false)}>
+          <div className="modal-content consultation-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowConsultationModal(false)}>×</button>
+            
+            <div className="modal-header">
+              <h2>Get Your Free Consultation</h2>
+              <p>Ready to make this happen? Let's connect and build your future.</p>
+            </div>
+            
+            <form className="lead-form" onSubmit={(e) => {
+              e.preventDefault();
+              submitLeadForm();
+            }}>
+              <div className="form-group">
+                <label htmlFor="name">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={leadForm.name}
+                  onChange={(e) => setLeadForm({...leadForm, name: e.target.value})}
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="email">Email Address *</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={leadForm.email}
+                  onChange={(e) => setLeadForm({...leadForm, email: e.target.value})}
+                  placeholder="john@example.com"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={leadForm.phone}
+                  onChange={(e) => setLeadForm({...leadForm, phone: e.target.value})}
+                  placeholder="+234 800 000 0000"
+                  required
+                />
+              </div>
+              
+              <div className="form-blueprint-info">
+                <p className="blueprint-selected">
+                  Blueprint: <strong>{selectedBlueprint?.name}</strong>
+                </p>
+              </div>
+              
+              <div className="form-actions">
+                <button type="button" className="btn-cancel" onClick={() => setShowConsultationModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-submit">
+                  Get Free Consultation
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      </div>
+    </DragDropContext>
   );
 };
 

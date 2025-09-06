@@ -304,13 +304,13 @@ const useGameLogic = () => {
       return {
         id: Date.now(),
         name: aiIdea.name,
-        tagline: aiIdea.tagline,
-        description: aiIdea.description,
-        components: components.map(c => c.label),
-        valuation: aiIdea.valuation,
-        jollofRating: aiIdea.jollofRating,
-        fundingStage: aiIdea.fundingStage,
-        marketSize: aiIdea.marketSize
+        executiveSummary: aiIdea.executiveSummary,
+        marketOpportunity: aiIdea.marketOpportunity,
+        revenueModel: aiIdea.revenueModel,
+        keyFeatures: aiIdea.keyFeatures,
+        nextSteps: aiIdea.nextSteps,
+        callToAction: aiIdea.callToAction,
+        components: components.map(c => c.label)
       };
 
     } catch (error) {
@@ -329,13 +329,13 @@ const useGameLogic = () => {
       return {
         id: Date.now(),
         name: `${prefix}${suffix}`,
-        tagline: gameConfig.taglines[Math.floor(Math.random() * gameConfig.taglines.length)],
-        description: fallbackDescriptions[Math.floor(Math.random() * fallbackDescriptions.length)],
-        components: components.map(c => c.label),
-        valuation: getRealisticValuation(components.length),
-        jollofRating: Math.floor(Math.random() * 5) + 6,
-        fundingStage: getFundingStage(),
-        marketSize: getMarketSize()
+        executiveSummary: fallbackDescriptions[Math.floor(Math.random() * fallbackDescriptions.length)],
+        marketOpportunity: "Growing market opportunity with significant demand for innovative solutions",
+        revenueModel: "Subscription-based model with premium features and enterprise tiers",
+        keyFeatures: `Integrated ${components.map(c => c.label).join(', ')} solution with seamless user experience`,
+        nextSteps: "1. Develop MVP 2. Test with users 3. Secure funding 4. Scale operations",
+        callToAction: "Ready to transform the market? Let's build something amazing together!",
+        components: components.map(c => c.label)
       };
     }
   }, [gameState.droppedComponents, getRealisticValuation, getFundingStage, getMarketSize]);
@@ -352,8 +352,8 @@ const useGameLogic = () => {
           stats: {
             ...prev.stats,
             ideasCount: prev.stats.ideasCount + 1,
-            totalNaira: prev.stats.totalNaira + idea.valuation,
-            jollofPoints: prev.stats.jollofPoints + idea.jollofRating
+            totalNaira: prev.stats.totalNaira + Math.floor(Math.random() * 1000000000) + 50000000,
+            jollofPoints: prev.stats.jollofPoints + Math.floor(Math.random() * 5) + 6
           }
         }));
         

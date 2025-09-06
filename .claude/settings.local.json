@@ -15,7 +15,8 @@
       "WebFetch(domain:www.figma.com)",
       "Bash(sed:*)",
       "Bash(npm run dev:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

@@ -6,12 +6,12 @@ interface GenerateIdeaRequest {
 
 interface GenerateIdeaResponse {
   name: string;
-  tagline: string;
-  description: string;
-  valuation: number;
-  jollofRating: number;
-  fundingStage: string;
-  marketSize: string;
+  executiveSummary: string;
+  marketOpportunity: string;
+  revenueModel: string;
+  keyFeatures: string;
+  nextSteps: string;
+  callToAction: string;
   error?: string;
 }
 
@@ -26,12 +26,12 @@ export default async function handler(
   if (req.method !== 'POST') {
     return res.status(405).json({ 
       name: '', 
-      tagline: '', 
-      description: '', 
-      valuation: 0, 
-      jollofRating: 0,
-      fundingStage: '',
-      marketSize: '',
+      executiveSummary: '', 
+      marketOpportunity: '', 
+      revenueModel: '', 
+      keyFeatures: '',
+      nextSteps: '',
+      callToAction: '',
       error: 'Method not allowed' 
     });
   }
@@ -42,45 +42,40 @@ export default async function handler(
     if (!components || components.length < 2) {
       return res.status(400).json({ 
         name: '', 
-        tagline: '', 
-        description: '', 
-        valuation: 0, 
-        jollofRating: 0,
-        fundingStage: '',
-        marketSize: '',
+        executiveSummary: '', 
+        marketOpportunity: '', 
+        revenueModel: '', 
+        keyFeatures: '',
+        nextSteps: '',
+        callToAction: '',
         error: 'At least 2 components required' 
       });
     }
 
     const componentsText = components.join(', ');
 
-    // Create a focused prompt for the AI model
-    const prompt = `Create a startup idea using these technologies: ${componentsText}
+    // Create a business blueprint focused prompt for the AI model
+    const prompt = `You are a business strategist for a top tech agency in Nigeria. A user has selected the following digital tools to build a business. Based on these tools, write a concise and compelling business blueprint. Do not use corporate jargon. Frame it with a clear market problem and how the tools solve it. Be creative. End with a single, powerful call to action.
 
-Focus on African market context with global potential:
-- Name: Creative tech startup name (can reference African cities/culture)
-- Tagline: Catchy, professional tagline with emoji (English only, no pidgin)
-- Description: MAXIMUM 40 words. Address real problems with innovative solutions and Naira pricing
-- Consider diverse challenges: urban transport, digital payments, agriculture, financial inclusion, education access, healthcare delivery, e-commerce, renewable energy
-- Reference various locations: Abuja, Port Harcourt, Kano, Ibadan, Accra, Nairobi, Cairo, Johannesburg, or broader African/global markets
-- Use clear, professional English throughout
-- Include specific Naira pricing where relevant
-- Valuation: Between 50000000 and 15000000000 (₦50M-₦15B)
-- Jollof Rating: 6-10 (appeal level for target market)
-- Funding Stage: Pre-seed, Seed Round, Series A, or Series B
-- Market Size: Diverse contexts (e.g., "15M Abuja metro", "350M African youth", "2B global users", "50M SMEs in Africa")
+Selected tools: ${componentsText}
 
-CRITICAL: Description must be exactly 40 words or less. Be concise and impactful.
+Create a comprehensive business blueprint with:
+- Business Name: Creative, memorable name that reflects the solution
+- Executive Summary: Clear problem statement and solution (MAX 60 words)
+- Market Opportunity: Specific target market and size
+- Revenue Model: How the business makes money
+- Key Features: How the selected tools work together
+- Next Steps: Actionable implementation plan
 
-Respond ONLY with this JSON format:
+Format as JSON:
 {
-  "name": "startup name here",
-  "tagline": "professional tagline with emoji",
-  "description": "concise solution description with pricing (MAX 40 words)",
-  "valuation": 500000000,
-  "jollofRating": 8,
-  "fundingStage": "Seed Round",
-  "marketSize": "15M Abuja metro"
+  "name": "business name",
+  "executiveSummary": "problem and solution description (max 60 words)",
+  "marketOpportunity": "target market description",
+  "revenueModel": "how business makes money",
+  "keyFeatures": "how tools integrate",
+  "nextSteps": "implementation roadmap",
+  "callToAction": "powerful single sentence CTA"
 }`;
 
     // Call Hugging Face Chat Completions API with Fireworks
@@ -139,12 +134,12 @@ Respond ONLY with this JSON format:
     // Validate and sanitize the AI response
     const sanitizedIdea: GenerateIdeaResponse = {
       name: ideaData.name || generateFallbackName(components),
-      tagline: ideaData.tagline || "Making Nigeria proud! 🇳🇬",
-      description: ideaData.description || `Revolutionary ${componentsText} platform solving Nigerian problems with innovative technology.`,
-      valuation: validateValuation(ideaData.valuation),
-      jollofRating: validateJollofRating(ideaData.jollofRating),
-      fundingStage: validateFundingStage(ideaData.fundingStage),
-      marketSize: ideaData.marketSize || "220M Nigerians nationwide"
+      executiveSummary: ideaData.executiveSummary || `Innovative ${componentsText} solution addressing key market challenges with proven technology stack.`,
+      marketOpportunity: ideaData.marketOpportunity || "Targeting growing digital market with 200M+ potential users across Africa",
+      revenueModel: ideaData.revenueModel || "Subscription-based SaaS model with tiered pricing and enterprise solutions",
+      keyFeatures: ideaData.keyFeatures || `Integrated ${componentsText} working together to deliver seamless user experience`,
+      nextSteps: ideaData.nextSteps || "1. MVP Development 2. Market Validation 3. Funding Round 4. Scale Operations",
+      callToAction: ideaData.callToAction || "Ready to transform your industry? Let's build the future together."
     };
 
     res.status(200).json(sanitizedIdea);
@@ -160,20 +155,20 @@ Respond ONLY with this JSON format:
 
 // Helper functions
 function createFallbackIdea(components: string[], aiText: string): GenerateIdeaResponse {
-  const prefixes = ['Naija', 'Lagos', 'Smart', 'Quick', 'Jollof'];
-  const suffixes = ['Tech', 'Hub', 'Pay', 'Connect', 'Plus'];
+  const prefixes = ['Smart', 'Quick', 'Elite', 'Prime', 'Swift'];
+  const suffixes = ['Solutions', 'Hub', 'Pro', 'Connect', 'Plus'];
   
   const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
   const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
 
   return {
     name: `${prefix}${suffix}`,
-    tagline: "Innovation meets Nigerian spirit! 🚀",
-    description: `Revolutionary ${components.join(' + ')} platform designed for Nigerian users. Solving real problems with cutting-edge technology at affordable prices.`,
-    valuation: Math.floor(Math.random() * (3000000000 - 100000000)) + 100000000,
-    jollofRating: Math.floor(Math.random() * 3) + 7,
-    fundingStage: ['Pre-seed', 'Seed Round', 'Series A'][Math.floor(Math.random() * 3)],
-    marketSize: ['350M African youth', '15M Abuja metro', '50M SMEs in Africa', '2B emerging market users', '100M mobile payment users'][Math.floor(Math.random() * 5)]
+    executiveSummary: `Comprehensive ${components.join(' + ')} solution addressing critical business challenges with integrated technology stack.`,
+    marketOpportunity: "Large addressable market with growing demand for digital transformation solutions",
+    revenueModel: "Multi-tiered SaaS model with monthly subscriptions, professional services, and enterprise contracts",
+    keyFeatures: `Seamlessly integrated ${components.join(', ')} providing end-to-end business automation and optimization`,
+    nextSteps: "Phase 1: MVP Development | Phase 2: Beta Testing | Phase 3: Market Launch | Phase 4: Scale Operations",
+    callToAction: "Ready to revolutionize your business operations? Let's build something extraordinary together."
   };
 }
 
