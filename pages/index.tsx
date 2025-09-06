@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import IdeaBuilder from '../components/IdealBuilder';
 
+// Cache bust: 2025-09-06 15:20 - Force Vercel deployment
+
 export default function Home() {
   return (
     <>
