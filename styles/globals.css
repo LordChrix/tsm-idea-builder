@@ -9,9 +9,9 @@
     --background: #0a0a0b;
     --surface: #111113;
     --surface-variant: #1a1a1c;
-    --surface-bright: #1e1e21;
-    --surface-container: #141416;
-    --surface-container-high: #1f1f22;
+    --surface-bright: #252529;
+    --surface-container: #18181b;
+    --surface-container-high: #27272a;
     
     --primary: #3b82f6;
     --primary-variant: #2563eb;
@@ -20,9 +20,9 @@
     --error: #ef4444;
     
     --text-primary: #ffffff;
-    --text-secondary: #a1a1aa;
-    --text-muted: #71717a;
-    --text-disabled: #52525b;
+    --text-secondary: #d4d4d8;
+    --text-muted: #a1a1aa;
+    --text-disabled: #71717a;
     
     --border: #27272a;
     --border-variant: #3f3f46;
@@ -71,10 +71,9 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: min-content;
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     min-height: 100vh;
 }
 
@@ -111,7 +110,6 @@ body {
 
 /* Header Section */
 .header {
-    grid-column: 1 / -1;
     background: var(--gradient-primary);
     color: white;
     text-align: center;
@@ -119,7 +117,7 @@ body {
     padding: 3rem 2rem;
     position: relative;
     overflow: hidden;
-    margin-bottom: 1rem;
+    width: 100%;
 }
 
 .header::before {
@@ -288,19 +286,18 @@ body {
     box-shadow: var(--shadow-md);
 }
 
-/* Stats Cards - Bento Grid */
+/* Stats Cards */
 .stats-grid {
-    grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 .stat-card {
-    background: var(--surface-variant);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-2xl);
+    background: var(--surface-bright);
+    border: 1px solid var(--border-variant);
+    border-radius: var(--radius-xl);
     padding: 1.5rem;
     transition: all 0.2s ease;
     position: relative;
@@ -310,7 +307,26 @@ body {
 .stat-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--border-variant);
+    border-color: var(--primary);
+    background: var(--surface-container-high);
+}
+
+.dual-currency {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.currency-main {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.currency-alt {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 .stat-card::before {
@@ -362,15 +378,14 @@ body {
 
 /* Instructions Card */
 .instructions-card {
-    background: linear-gradient(135deg, var(--primary), #0095d4);
-    color: var(--white);
-    border-radius: 20px;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-xl);
     padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-xl);
+    width: 100%;
+    box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .instructions-card::after {
@@ -422,47 +437,35 @@ body {
     flex-shrink: 0;
 }
 
-/* Game Area - Proper Bento Grid Layout */
+/* Game Area - Proper Responsive Layout */
 .game-area {
-    grid-column: 1 / -1;
-    display: contents;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    min-height: 600px;
 }
 
-/* Responsive Bento Grid Layout */
+/* Responsive Layout */
 @media (max-width: 1200px) {
-    .container {
-        grid-template-columns: repeat(4, 1fr);
-        padding: 1.5rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .components-panel {
-        grid-column: 1 / 3;
-        grid-row: span 1;
-        height: 400px;
-    }
-    
-    .drop-zone-container {
-        grid-column: 3 / -1;
-        grid-row: span 1;
-        min-height: 400px;
+    .game-area {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
     }
     
     .results-panel {
         grid-column: 1 / -1;
-        grid-row: span 1;
-        height: 400px;
     }
 }
 
 @media (max-width: 768px) {
     .container {
-        grid-template-columns: 1fr;
-        gap: 1rem;
         padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .header {
+        padding: 2rem 1.5rem;
     }
     
     .stats-grid {
@@ -470,12 +473,17 @@ body {
         gap: 1rem;
     }
     
+    .game-area {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        min-height: auto;
+    }
+    
     .components-panel,
     .drop-zone-container,
     .results-panel {
-        grid-column: 1;
-        grid-row: span 1;
-        height: 350px;
+        width: 100%;
+        min-height: 400px;
     }
 }
 
@@ -506,23 +514,22 @@ body {
     background: var(--primary);
 }
 
-/* Components Panel - Bento Grid */
+/* Components Panel */
 .components-panel {
-    grid-column: 1 / 3;
-    grid-row: span 2;
-    background: var(--surface-variant);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-2xl);
+    background: var(--surface-bright);
+    border: 1px solid var(--border-variant);
+    border-radius: var(--radius-xl);
     padding: 1.5rem;
     transition: all 0.2s ease;
-    height: 600px;
+    height: 100%;
     overflow-y: auto;
+    min-height: 500px;
 }
 
 .components-panel:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--border-variant);
+    border-color: var(--primary);
 }
 
 .panel-title {
@@ -666,15 +673,15 @@ body {
     text-transform: uppercase;
 }
 
-/* Drop Zone - Bento Grid */
+/* Drop Zone */
 .drop-zone-container {
-    grid-column: 3 / 5;
-    background: var(--surface-variant);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-2xl);
+    background: var(--surface-bright);
+    border: 1px solid var(--border-variant);
+    border-radius: var(--radius-xl);
     padding: 1.5rem;
     transition: all 0.2s ease;
-    min-height: 400px;
+    min-height: 500px;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -682,7 +689,7 @@ body {
 .drop-zone-container:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--border-variant);
+    border-color: var(--primary);
 }
 
 .drop-zone-wrapper {
@@ -926,16 +933,15 @@ body {
     box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.5);
 }
 
-/* Results Panel - Bento Grid */
+/* Results Panel */
 .results-panel {
-    grid-column: 5 / -1;
-    grid-row: span 2;
-    background: var(--surface-variant);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-2xl);
+    background: var(--surface-bright);
+    border: 1px solid var(--border-variant);
+    border-radius: var(--radius-xl);
     padding: 1.5rem;
     transition: all 0.2s ease;
-    height: 600px;
+    height: 100%;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
 }
@@ -943,7 +949,7 @@ body {
 .results-panel:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--border-variant);
+    border-color: var(--primary);
 }
 
 .results-scroll-container {

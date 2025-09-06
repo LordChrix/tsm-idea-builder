@@ -246,17 +246,20 @@ const IdeaBuilder: React.FC = () => {
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Naira Potential</div>
+          <div className="stat-label">Valuation Potential</div>
           <div className="stat-value">
             <span className="stat-icon animate-bounce">
               <LottieIcon 
                 src="https://assets9.lottiefiles.com/packages/lf20_06a6pf9i.json"
                 width={32}
                 height={32}
-                fallback={<span>₦</span>}
+                fallback={<span>💰</span>}
               />
             </span>
-            <span>₦{gameState.stats.totalNaira > 0 ? formatCurrency(gameState.stats.totalNaira) : '0'}</span>
+            <div className="dual-currency">
+              <span className="currency-main">₦{gameState.stats.totalNaira > 0 ? formatCurrency(gameState.stats.totalNaira) : '0'}</span>
+              <span className="currency-alt">${gameState.stats.totalNaira > 0 ? formatCurrency(Math.round(gameState.stats.totalNaira / 1650)) : '0'}</span>
+            </div>
           </div>
         </div>
         <div className="stat-card">
