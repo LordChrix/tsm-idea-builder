@@ -3375,3 +3375,328 @@ button:focus-visible,
   }
 }
 
+/* Share Button & Modal Styling - CRITICAL FIXES */
+
+/* Header Share Button */
+.panel-header-with-share {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.desktop-share-button {
+  position: relative;
+}
+
+.share-header-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.share-header-btn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.share-icon {
+  font-size: 1rem;
+}
+
+/* Share Dropdown */
+.share-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 200px;
+  z-index: 1000;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  margin-top: 0.5rem;
+}
+
+.share-dropdown-header {
+  margin-bottom: 0.75rem;
+}
+
+.share-dropdown-title {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.share-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.share-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.share-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.share-platform-icon {
+  flex-shrink: 0;
+}
+
+/* Mobile FAB Share Button */
+.mobile-share-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.fab-share-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  transition: all 0.3s ease;
+}
+
+.fab-share-btn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+}
+
+.fab-share-icon {
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+
+.fab-share-btn:hover .fab-share-icon {
+  transform: rotate(45deg);
+}
+
+.fab-dropdown {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+}
+
+/* Consultation Modal - CRITICAL FIX */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.consultation-modal {
+  padding: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: white;
+}
+
+.modal-header h2 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.modal-header p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: white;
+  font-size: 1rem;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+/* Logo Visibility Fix */
+.tsm-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  position: relative;
+}
+
+.tsm-logo svg,
+.tsm-logo img {
+  max-width: 100%;
+  height: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Drag and Drop Fix */
+.drop-zone {
+  min-height: 200px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.drop-zone.drag-over {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+/* Mobile Responsive Fixes */
+@media (max-width: 768px) {
+  .desktop-share-button {
+    display: none;
+  }
+  
+  .mobile-share-fab {
+    display: block;
+  }
+  
+  .consultation-modal {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .modal-content {
+    max-width: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-share-fab {
+    display: none;
+  }
+  
+  .desktop-share-button {
+    display: block;
+  }
+}
+
