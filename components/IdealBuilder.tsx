@@ -138,27 +138,47 @@ const IdeaBuilder: React.FC = () => {
     rocket.innerHTML = '🚀';
     rocket.style.cssText = `
       position: fixed;
-      font-size: 80px;
+      font-size: 120px;
       z-index: 10000;
-      left: -150px;
-      top: 50%;
-      transform: translateY(-50%) rotate(45deg);
-      animation: rocket-fly 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
-      filter: drop-shadow(0 0 30px rgba(255, 100, 0, 1)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.6));
+      right: -180px;
+      bottom: -180px;
+      transform: rotate(-45deg);
+      animation: magical-rocket-fly 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      filter: drop-shadow(0 0 40px rgba(255, 50, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 120px rgba(255, 100, 0, 0.4));
     `;
     
-    // Create flame trail
+    // Create magical sparkles
+    const sparkles = document.createElement('div');
+    sparkles.innerHTML = '✨✨✨✨✨';
+    sparkles.style.cssText = `
+      position: fixed;
+      font-size: 40px;
+      z-index: 9998;
+      right: -150px;
+      bottom: -150px;
+      animation: sparkles-follow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+    `;
+    
+    // Create rainbow trail
     const trail = document.createElement('div');
     trail.style.cssText = `
       position: fixed;
-      width: 200px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 100, 0, 0.8) 30%, rgba(255, 200, 0, 1) 100%);
+      width: 300px;
+      height: 8px;
+      background: linear-gradient(135deg, 
+        rgba(255, 0, 150, 0.8) 0%, 
+        rgba(255, 100, 0, 0.9) 25%, 
+        rgba(0, 255, 255, 0.8) 50%, 
+        rgba(150, 0, 255, 0.9) 75%, 
+        transparent 100%);
       z-index: 9999;
-      left: -200px;
-      top: 50%;
-      transform: translateY(-50%);
-      animation: trail-fly 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+      right: -350px;
+      bottom: -350px;
+      transform: rotate(-45deg);
+      border-radius: 4px;
+      animation: rainbow-trail-fly 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      box-shadow: 0 0 20px rgba(255, 100, 255, 0.5);
     `;
     
     // Add CSS animation if not already present
@@ -166,37 +186,72 @@ const IdeaBuilder: React.FC = () => {
       const style = document.createElement('style');
       style.id = 'rocket-animation-style';
       style.textContent = `
-        @keyframes rocket-fly {
+        @keyframes magical-rocket-fly {
           0% {
-            left: -150px;
-            transform: translateY(-50%) rotate(45deg) scale(0.8);
-            filter: drop-shadow(0 0 30px rgba(255, 100, 0, 1)) drop-shadow(0 0 60px rgba(255, 200, 0, 0.6));
+            right: -180px;
+            bottom: -180px;
+            transform: rotate(-45deg) scale(0.5);
+            filter: drop-shadow(0 0 40px rgba(255, 50, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 120px rgba(255, 100, 0, 0.4));
           }
-          30% {
-            transform: translateY(-50%) rotate(45deg) scale(1.3);
-            filter: drop-shadow(0 0 40px rgba(255, 100, 0, 1)) drop-shadow(0 0 80px rgba(255, 200, 0, 0.8));
+          25% {
+            transform: rotate(-45deg) scale(1.4);
+            filter: drop-shadow(0 0 60px rgba(255, 50, 255, 1)) drop-shadow(0 0 120px rgba(0, 255, 255, 0.8)) drop-shadow(0 0 180px rgba(255, 100, 0, 0.6));
+          }
+          75% {
+            transform: rotate(-45deg) scale(1.1);
+            filter: drop-shadow(0 0 50px rgba(255, 50, 255, 0.9)) drop-shadow(0 0 100px rgba(0, 255, 255, 0.7)) drop-shadow(0 0 150px rgba(255, 100, 0, 0.5));
           }
           100% {
-            left: calc(100% + 150px);
-            transform: translateY(-50%) rotate(45deg) scale(0.9);
-            filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.6)) drop-shadow(0 0 40px rgba(255, 200, 0, 0.4));
+            right: calc(100% + 180px);
+            bottom: calc(100% + 180px);
+            transform: rotate(-45deg) scale(0.8);
+            filter: drop-shadow(0 0 30px rgba(255, 50, 255, 0.6)) drop-shadow(0 0 60px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 90px rgba(255, 100, 0, 0.3));
           }
         }
         
-        @keyframes trail-fly {
+        @keyframes sparkles-follow {
           0% {
-            left: -400px;
+            right: -150px;
+            bottom: -150px;
             opacity: 0;
+            transform: scale(0.5) rotate(0deg);
           }
           20% {
             opacity: 1;
+            transform: scale(1.2) rotate(180deg);
           }
           80% {
             opacity: 1;
+            transform: scale(1) rotate(360deg);
           }
           100% {
-            left: calc(100% + 50px);
+            right: calc(100% + 150px);
+            bottom: calc(100% + 150px);
             opacity: 0;
+            transform: scale(0.7) rotate(540deg);
+          }
+        }
+        
+        @keyframes rainbow-trail-fly {
+          0% {
+            right: -500px;
+            bottom: -500px;
+            opacity: 0;
+            transform: rotate(-45deg) scale(0.5);
+          }
+          15% {
+            opacity: 1;
+            transform: rotate(-45deg) scale(1);
+          }
+          85% {
+            opacity: 1;
+            transform: rotate(-45deg) scale(1);
+          }
+          100% {
+            right: calc(100% + 200px);
+            bottom: calc(100% + 200px);
+            opacity: 0;
+            transform: rotate(-45deg) scale(0.8);
           }
         }
       `;
@@ -204,6 +259,7 @@ const IdeaBuilder: React.FC = () => {
     }
     
     document.body.appendChild(trail);
+    document.body.appendChild(sparkles);
     document.body.appendChild(rocket);
     
     // Remove elements after animation
@@ -214,7 +270,10 @@ const IdeaBuilder: React.FC = () => {
       if (trail.parentNode) {
         document.body.removeChild(trail);
       }
-    }, 900);
+      if (sparkles.parentNode) {
+        document.body.removeChild(sparkles);
+      }
+    }, 1300);
   };
 
   const handleGenerate = async () => {
