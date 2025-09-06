@@ -345,7 +345,7 @@ const IdeaBuilder: React.FC = () => {
                 src="https://assets4.lottiefiles.com/packages/lf20_1pxqjqps.json"
                 width={32}
                 height={32}
-                fallback={<span>🍛</span>}
+                fallback={<span>🍚</span>}
               />
             </span>
             <span>{gameState.stats.jollofPoints}</span>
@@ -555,7 +555,7 @@ const IdeaBuilder: React.FC = () => {
                         <span className="stat-value-compact">₦{formatCurrency(idea.valuation)}</span>
                       </div>
                       <div className="idea-stat-compact jollof">
-                        <span className="stat-icon">🍛</span>
+                        <span className="stat-icon">🍚</span>
                         <span className="stat-label">Jollof Rating</span>
                         <span className="stat-value-compact">{idea.jollofRating}/10</span>
                       </div>

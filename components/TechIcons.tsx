@@ -6,155 +6,53 @@ interface IconProps {
 }
 
 const TechIcons = {
-  // AI & Technology Icons
+  // Simple emoji-based icons for Nigerian users
   ai: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#1a73e8', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#34a853', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#aiGrad)" opacity="0.1"/>
-      <circle cx="50" cy="35" r="12" fill="url(#aiGrad)" opacity="0.8"/>
-      <rect x="25" y="55" width="50" height="4" rx="2" fill="url(#aiGrad)" opacity="0.6"/>
-      <rect x="25" y="65" width="35" height="4" rx="2" fill="url(#aiGrad)" opacity="0.4"/>
-      <rect x="25" y="75" width="40" height="4" rx="2" fill="url(#aiGrad)" opacity="0.3"/>
-      <circle cx="30" cy="35" r="2" fill="url(#aiGrad)"/>
-      <circle cx="70" cy="35" r="2" fill="url(#aiGrad)"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🤖
+    </div>
   ),
 
   blockchain: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="blockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#ea4335', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#fbbc04', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#blockGrad)" opacity="0.1"/>
-      <rect x="20" y="20" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
-      <rect x="60" y="20" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
-      <rect x="20" y="60" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
-      <rect x="60" y="60" width="20" height="20" fill="url(#blockGrad)" rx="4"/>
-      <rect x="45" y="27" width="10" height="3" fill="url(#blockGrad)" rx="1.5"/>
-      <rect x="45" y="70" width="10" height="3" fill="url(#blockGrad)" rx="1.5"/>
-      <rect x="27" y="45" width="3" height="10" fill="url(#blockGrad)" rx="1.5"/>
-      <rect x="70" y="45" width="3" height="10" fill="url(#blockGrad)" rx="1.5"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🔗
+    </div>
   ),
 
   cloud: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#00f2fe', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path d="M75 60 C75 50, 65 45, 60 50 C60 40, 45 35, 40 45 C30 45, 25 55, 35 60 Z" fill="url(#cloudGrad)" opacity="0.9"/>
-      <circle cx="50" cy="55" r="3" fill="white" opacity="0.8"/>
-      <circle cx="60" cy="55" r="3" fill="white" opacity="0.8"/>
-      <circle cx="40" cy="55" r="3" fill="white" opacity="0.8"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      ☁️
+    </div>
   ),
 
   mobile: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="mobileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
-        </linearGradient>
-        <filter id="mobileGlow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-          <feMerge> 
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <ellipse cx="50" cy="50" rx="25" ry="40" fill="url(#mobileGrad)" opacity="0.15"/>
-      <rect x="32" y="15" width="36" height="70" rx="8" fill="rgba(255,255,255,0.1)" stroke="url(#mobileGrad)" strokeWidth="2.5" filter="url(#mobileGlow)"/>
-      <rect x="37" y="25" width="26" height="40" rx="3" fill="url(#mobileGrad)" opacity="0.7"/>
-      <circle cx="50" cy="75" r="4" fill="url(#mobileGrad)" filter="url(#mobileGlow)"/>
-      <rect x="45" y="19" width="10" height="2" rx="1" fill="url(#mobileGrad)" opacity="0.6"/>
-      <path d="M42 30 L58 30 M42 35 L55 35 M42 40 L52 40" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      📱
+    </div>
   ),
 
   payment: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="payGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#fa709a', stopOpacity: 1 }} />
-          <stop offset="50%" style={{ stopColor: '#fee140', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
-        </linearGradient>
-        <filter id="payGlow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-          <feMerge> 
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <ellipse cx="50" cy="50" rx="40" ry="25" fill="url(#payGrad)" opacity="0.15"/>
-      <rect x="20" y="30" width="60" height="40" rx="8" fill="rgba(255,255,255,0.1)" stroke="url(#payGrad)" strokeWidth="2.5" filter="url(#payGlow)"/>
-      <rect x="20" y="45" width="60" height="8" fill="url(#payGrad)" opacity="0.6"/>
-      <rect x="25" y="58" width="20" height="3" rx="1" fill="url(#payGrad)" opacity="0.8"/>
-      <rect x="25" y="63" width="30" height="2" rx="1" fill="url(#payGrad)" opacity="0.6"/>
-      <circle cx="70" cy="60" r="6" fill="url(#payGrad)" filter="url(#payGlow)"/>
-      <path d="M65 60 L67 62 L75 54" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      💳
+    </div>
   ),
 
   delivery: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="deliveryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#f093fb', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#f5576c', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="20" y="40" width="40" height="25" fill="url(#deliveryGrad)" opacity="0.3"/>
-      <rect x="60" y="45" width="20" height="20" fill="url(#deliveryGrad)" opacity="0.3"/>
-      <circle cx="35" cy="70" r="6" fill="none" stroke="url(#deliveryGrad)" strokeWidth="2"/>
-      <circle cx="65" cy="70" r="6" fill="none" stroke="url(#deliveryGrad)" strokeWidth="2"/>
-      <path d="M20 40 L60 40 L75 50 L80 50 L80 65 L60 65" stroke="url(#deliveryGrad)" strokeWidth="2" fill="none"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🚚
+    </div>
   ),
 
   social: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="socialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#4facfe', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#00f2fe', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <circle cx="50" cy="35" r="8" fill="url(#socialGrad)" opacity="0.8"/>
-      <circle cx="30" cy="55" r="6" fill="url(#socialGrad)" opacity="0.6"/>
-      <circle cx="70" cy="55" r="6" fill="url(#socialGrad)" opacity="0.6"/>
-      <path d="M50 35 L30 55 M50 35 L70 55 M30 55 L70 55" stroke="url(#socialGrad)" strokeWidth="2" opacity="0.5"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      👥
+    </div>
   ),
 
   shopping: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="shopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#fa709a', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#fee140', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path d="M25 30 L35 30 L40 60 L70 60 L75 40 L40 40" stroke="url(#shopGrad)" strokeWidth="3" fill="none" strokeLinecap="round"/>
-      <circle cx="45" cy="70" r="4" fill="url(#shopGrad)"/>
-      <circle cx="65" cy="70" r="4" fill="url(#shopGrad)"/>
-      <circle cx="35" cy="30" r="3" fill="url(#shopGrad)"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🛒
+    </div>
   ),
 
   vr: ({ size = 40, className = '' }: IconProps) => (
@@ -192,33 +90,15 @@ const TechIcons = {
 
   // Communication & Video
   videochat: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="videoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="20" y="30" width="60" height="40" rx="8" fill="url(#videoGrad)" opacity="0.2" stroke="url(#videoGrad)" strokeWidth="2"/>
-      <circle cx="50" cy="50" r="6" fill="url(#videoGrad)"/>
-      <rect x="15" y="35" width="8" height="6" rx="2" fill="url(#videoGrad)" opacity="0.8"/>
-      <rect x="77" y="35" width="8" height="6" rx="2" fill="url(#videoGrad)" opacity="0.8"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      📹
+    </div>
   ),
 
   messaging: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="msgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#25d366', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#128c7e', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path d="M20 35 C20 25, 30 20, 50 20 C70 20, 80 25, 80 35 C80 45, 70 50, 50 50 L35 65 Z" fill="url(#msgGrad)" opacity="0.8"/>
-      <circle cx="40" cy="35" r="3" fill="white"/>
-      <circle cx="50" cy="35" r="3" fill="white"/>
-      <circle cx="60" cy="35" r="3" fill="white"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      💬
+    </div>
   ),
 
   translation: ({ size = 40, className = '' }: IconProps) => (
@@ -238,82 +118,36 @@ const TechIcons = {
 
   // Education & Learning
   learning: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="learnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#ff6b35', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#f7931e', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="25" y="20" width="50" height="60" rx="4" fill="url(#learnGrad)" opacity="0.2" stroke="url(#learnGrad)" strokeWidth="2"/>
-      <rect x="35" y="30" width="30" height="3" rx="1" fill="url(#learnGrad)" opacity="0.8"/>
-      <rect x="35" y="40" width="25" height="2" rx="1" fill="url(#learnGrad)" opacity="0.6"/>
-      <rect x="35" y="50" width="20" height="2" rx="1" fill="url(#learnGrad)" opacity="0.4"/>
-      <circle cx="50" cy="65" r="4" fill="url(#learnGrad)"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      📚
+    </div>
   ),
 
   // Healthcare
   healthcare: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="healthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#ff416c', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#ff4b2b', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="45" y="25" width="10" height="25" fill="url(#healthGrad)"/>
-      <rect x="35" y="35" width="30" height="10" fill="url(#healthGrad)"/>
-      <circle cx="50" cy="60" r="15" fill="none" stroke="url(#healthGrad)" strokeWidth="3" opacity="0.3"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🏥
+    </div>
   ),
 
   // Food & Agriculture
   food: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="foodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#ff9a56', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#ffad56', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <circle cx="50" cy="50" r="20" fill="url(#foodGrad)" opacity="0.3"/>
-      <path d="M50 35 C40 35, 35 45, 50 50 C65 45, 60 35, 50 35" fill="url(#foodGrad)"/>
-      <circle cx="45" cy="42" r="2" fill="#ff6b35"/>
-      <circle cx="55" cy="42" r="2" fill="#ff6b35"/>
-      <path d="M45 48 Q50 52 55 48" stroke="#ff6b35" strokeWidth="2" fill="none"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🍕
+    </div>
   ),
 
   farming: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="farmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#56b3d9', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#88d8b0', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path d="M30 70 Q30 50, 40 40 Q50 30, 60 40 Q70 50, 70 70" stroke="url(#farmGrad)" strokeWidth="3" fill="none"/>
-      <path d="M25 70 Q25 55, 35 45" stroke="url(#farmGrad)" strokeWidth="2" fill="none" opacity="0.7"/>
-      <path d="M75 70 Q75 55, 65 45" stroke="url(#farmGrad)" strokeWidth="2" fill="none" opacity="0.7"/>
-      <rect x="20" y="70" width="60" height="5" fill="#8b4513" opacity="0.6"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🌾
+    </div>
   ),
 
   // Real Estate & Housing
   realestate: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="realGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <path d="M50 25 L75 45 L75 70 L25 70 L25 45 Z" fill="url(#realGrad)" opacity="0.3" stroke="url(#realGrad)" strokeWidth="2"/>
-      <rect x="40" y="55" width="8" height="15" fill="url(#realGrad)" opacity="0.8"/>
-      <rect x="55" y="45" width="8" height="8" fill="url(#realGrad)" opacity="0.6"/>
-      <circle cx="46" cy="62" r="1" fill="url(#realGrad)"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      🏠
+    </div>
   ),
 
   // Entertainment & Media
@@ -784,17 +618,9 @@ const TechIcons = {
 
   // Default icon for components without custom icons
   default: ({ size = 40, className = '' }: IconProps) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
-      <defs>
-        <linearGradient id="defaultGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#1a73e8', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#34a853', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#defaultGrad)" opacity="0.1"/>
-      <rect x="25" y="25" width="50" height="50" rx="12" fill="url(#defaultGrad)" opacity="0.2"/>
-      <circle cx="50" cy="50" r="8" fill="url(#defaultGrad)"/>
-    </svg>
+    <div style={{ fontSize: `${size * 0.7}px`, textAlign: 'center' }} className={className}>
+      ⚙️
+    </div>
   )
 };
 
