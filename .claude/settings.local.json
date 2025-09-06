@@ -19,7 +19,8 @@
       "Bash(npm install:*)",
       "Bash(npm start)",
       "Bash(git fetch:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(/bashes)"
     ],
     "deny": [],
     "ask": []
