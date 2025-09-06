@@ -277,39 +277,75 @@ const useGameLogic = () => {
     return sizes[Math.floor(Math.random() * sizes.length)];
   }, []);
 
-  const createIdea = useCallback((): Idea => {
+  const generateWithAI = useCallback(async (): Promise<Idea> => {
     const components = gameState.droppedComponents;
-    const prefix = gameConfig.prefixes[Math.floor(Math.random() * gameConfig.prefixes.length)];
-    const suffix = gameConfig.suffixes[Math.floor(Math.random() * gameConfig.suffixes.length)];
     
-    const descriptions = [
-      `Stop paying ₦150 bank charges! This ${components[0].label} + ${components[1] ? components[1].label : components[0].label} platform lets you send money for just ₦50. Perfect for small business owners who transfer money daily.`,
-      `Tired of Lagos traffic? Our ${components.map(c => c.label).join(' + ')} app helps delivery riders find the fastest routes, saving ₦50,000 monthly on fuel. No more getting stuck in go-slow!`,
-      `Farmers in villages can now sell directly to Lagos buyers! This ${components[0].label} platform helps farmers get 40% more money by cutting out middlemen. Your yam goes straight from farm to customer.`,
-      `Students, stop buying expensive textbooks! Our ${components.map(c => c.label).join(' + ')} platform gives you all course materials for ₦15,000/year instead of ₦80,000. Study anywhere, anytime.`,
-      `Small shop owners, manage your business easier! This ${components[0].label} helps you track sales, customers, and inventory in English, Igbo, Yoruba, or Hausa for just ₦5,000/month.`,
-      `See a doctor from your home! This ${components[0].label} app connects you with real doctors via video chat. Save 60% on hospital visits and get help for common sickness immediately.`,
-      `House hunters, find your perfect home! This ${components.map(c => c.label).join(' + ')} app shows available rooms, flats, and houses in your area with real photos and prices. No fake agents!`,
-      `Food lovers, get your favorite meals delivered hot! Our ${components[0].label} platform connects you with local restaurants and fast delivery riders. Jollof rice in 30 minutes!`
-    ];
-    
-    return {
-      id: Date.now(),
-      name: `${prefix}${suffix}`,
-      tagline: gameConfig.taglines[Math.floor(Math.random() * gameConfig.taglines.length)],
-      description: descriptions[Math.floor(Math.random() * descriptions.length)],
-      components: components.map(c => c.label),
-      valuation: getRealisticValuation(components.length),
-      jollofRating: Math.floor(Math.random() * 5) + 6,
-      fundingStage: getFundingStage(),
-      marketSize: getMarketSize()
-    };
+    try {
+      const response = await fetch('/api/generate-idea', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          components: components.map(c => c.label)
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('AI API request failed');
+      }
+
+      const aiIdea = await response.json();
+      
+      if (aiIdea.error) {
+        throw new Error(aiIdea.error);
+      }
+
+      return {
+        id: Date.now(),
+        name: aiIdea.name,
+        tagline: aiIdea.tagline,
+        description: aiIdea.description,
+        components: components.map(c => c.label),
+        valuation: aiIdea.valuation,
+        jollofRating: aiIdea.jollofRating,
+        fundingStage: aiIdea.fundingStage,
+        marketSize: aiIdea.marketSize
+      };
+
+    } catch (error) {
+      console.error('AI Generation failed, using fallback:', error);
+      
+      // Fallback to template-based generation
+      const prefix = gameConfig.prefixes[Math.floor(Math.random() * gameConfig.prefixes.length)];
+      const suffix = gameConfig.suffixes[Math.floor(Math.random() * gameConfig.suffixes.length)];
+      
+      const fallbackDescriptions = [
+        `Revolutionary ${components[0].label} + ${components[1] ? components[1].label : components[0].label} platform designed for Nigerian users. Solving real problems with innovative technology.`,
+        `Smart ${components.map(c => c.label).join(' + ')} solution that makes life easier for Nigerians. Built with local insights and global technology standards.`,
+        `Nigerian-first ${components[0].label} platform that understands local needs. Bridging the gap between technology and everyday Nigerian challenges.`
+      ];
+      
+      return {
+        id: Date.now(),
+        name: `${prefix}${suffix}`,
+        tagline: gameConfig.taglines[Math.floor(Math.random() * gameConfig.taglines.length)],
+        description: fallbackDescriptions[Math.floor(Math.random() * fallbackDescriptions.length)],
+        components: components.map(c => c.label),
+        valuation: getRealisticValuation(components.length),
+        jollofRating: Math.floor(Math.random() * 5) + 6,
+        fundingStage: getFundingStage(),
+        marketSize: getMarketSize()
+      };
+    }
   }, [gameState.droppedComponents, getRealisticValuation, getFundingStage, getMarketSize]);
 
-  const generateStartupIdea = useCallback(() => {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const idea = createIdea();
+  const generateStartupIdea = useCallback(async () => {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        // Generate idea using AI
+        const idea = await generateWithAI();
+        
         setGameState(prev => ({
           ...prev,
           generatedIdeas: [idea, ...prev.generatedIdeas],
@@ -324,9 +360,13 @@ const useGameLogic = () => {
         playSound('generate');
         createConfetti();
         resolve();
-      }, 1500);
+        
+      } catch (error) {
+        console.error('Failed to generate startup idea:', error);
+        reject(error);
+      }
     });
-  }, [createIdea, playSound, createConfetti]);
+  }, [generateWithAI, playSound, createConfetti]);
 
   const toggleSound = useCallback(() => {
     setGameState(prev => ({

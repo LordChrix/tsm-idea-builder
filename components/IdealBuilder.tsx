@@ -139,34 +139,72 @@ const IdeaBuilder: React.FC = () => {
     const statElements = document.querySelectorAll('.stat-value');
     statElements.forEach(el => el.classList.add('updating'));
     
-    // Show generation steps for better UX
+    // Show AI-powered generation steps for better UX
     const steps = [
       'Analyzing components...',
+      'Connecting to AI brain...',
       'Researching Nigerian market...',
-      'Calculating valuation...',
-      'Creating your startup!'
+      'AI generating creative ideas...',
+      'Calculating realistic valuation...',
+      'Finalizing your startup!'
     ];
     
-    for (let i = 0; i < steps.length; i++) {
-      setGenerationStep(steps[i]);
-      await new Promise(resolve => setTimeout(resolve, 400));
-    }
-    
-    await generateStartupIdea();
-    setIsGenerating(false);
-    setGenerationStep('');
-    
-    // Remove visual feedback
-    setTimeout(() => {
-      statElements.forEach(el => el.classList.remove('updating'));
-    }, 500);
-    
-    // Check for achievements
-    const achievement = gameConfig.achievements.find(a => a.count === gameState.stats.ideasCount + 1);
-    if (achievement) {
-      setCurrentAchievement(achievement);
-      setShowAchievement(true);
-      setTimeout(() => setShowAchievement(false), 3000);
+    try {
+      // Show loading steps
+      for (let i = 0; i < steps.length - 1; i++) {
+        setGenerationStep(steps[i]);
+        await new Promise(resolve => setTimeout(resolve, 600));
+      }
+      
+      // Final step while AI generates
+      setGenerationStep(steps[steps.length - 1]);
+      
+      // Call AI generation
+      await generateStartupIdea();
+      
+      // Check for achievements
+      const achievement = gameConfig.achievements.find(a => a.count === gameState.stats.ideasCount + 1);
+      if (achievement) {
+        setCurrentAchievement(achievement);
+        setShowAchievement(true);
+        setTimeout(() => setShowAchievement(false), 3000);
+      }
+      
+    } catch (error) {
+      console.error('Generation failed:', error);
+      
+      // Show error message to user
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-content toast-warning">
+          <span class="toast-icon">⚠️</span>
+          <span class="toast-message">AI generation failed, but we created a great idea anyway! 🚀</span>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('toast-show');
+      }, 100);
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, 3000);
+      
+    } finally {
+      setIsGenerating(false);
+      setGenerationStep('');
+      
+      // Remove visual feedback
+      setTimeout(() => {
+        statElements.forEach(el => el.classList.remove('updating'));
+      }, 500);
     }
   };
 
@@ -287,7 +325,7 @@ const IdeaBuilder: React.FC = () => {
               fallback={<span className="animate-bounce">🚀</span>}
             />
           </div>
-          <h1 className="logo-text">TSM Builder Game</h1>
+          <h1 className="logo-text">AI TSM Builder Game</h1>
         </div>
         <p className="tagline">Build Your Next Billion Naira Tech Startup!</p>
         <p className="sub-tagline">
