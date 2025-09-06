@@ -335,10 +335,10 @@ const useGameLogic = () => {
       return {
         id: Date.now(),
         name: `${prefix}${suffix}`,
-        executiveSummary: fallbackDescriptions[Math.floor(Math.random() * fallbackDescriptions.length)],
-        marketOpportunity: "Growing market opportunity with significant demand for innovative solutions",
-        revenueModel: "Subscription-based model with premium features and enterprise tiers",
-        keyFeatures: `Integrated ${components.map(c => c.label).join(', ')} solution with seamless user experience`,
+        executiveSummary: "Complete package: Storefront, Payments, Chat, App, and Security — everything you need to solve business problems and grow fast.",
+        marketOpportunity: "Big market — more people and businesses want digital solutions every day.",
+        revenueModel: "We make money from monthly plans, pro services, and big contracts.",
+        keyFeatures: "All-in-one: Shop, Payments, Chat, App, and Security — built to run and grow your business easily.",
         nextSteps: "1. Develop MVP 2. Test with users 3. Secure funding 4. Scale operations",
         callToAction: "Ready to transform the market? Let's build something amazing together!",
         components: components.map(c => c.label)

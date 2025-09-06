@@ -18,7 +18,8 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(npm start)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(npm run lint)"
     ],
     "deny": [],
     "ask": []

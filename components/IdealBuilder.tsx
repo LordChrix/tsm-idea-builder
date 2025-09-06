@@ -43,10 +43,11 @@ const IdeaBuilder: React.FC = () => {
   const [currentAchievement, setCurrentAchievement] = useState<{title: string, message: string} | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
-  const [activeShareDropdown, setActiveShareDropdown] = useState<number | null>(null);
   const [showConsultationModal, setShowConsultationModal] = useState(false);
   const [selectedBlueprint, setSelectedBlueprint] = useState<any>(null);
   const [leadForm, setLeadForm] = useState({ name: '', email: '', phone: '' });
+  const [showHeaderShareDropdown, setShowHeaderShareDropdown] = useState(false);
+  const [showFabShareDropdown, setShowFabShareDropdown] = useState(false);
   
   // Animation system state
   const [showAnimationOverlay, setShowAnimationOverlay] = useState(false);
@@ -92,9 +93,49 @@ const IdeaBuilder: React.FC = () => {
     setSelectedComponents([]);
   };
 
-  const toggleShareDropdown = (ideaId: number) => {
-    setActiveShareDropdown(activeShareDropdown === ideaId ? null : ideaId);
+  // Quick Start Pack definitions
+  const quickStartPacks = [
+    {
+      id: 'ecommerce-pack',
+      name: 'E-Commerce Pack',
+      emoji: '🛒',
+      description: 'Everything you need to run an online store',
+      components: ['online-shop', 'collect-payments', 'delivery-logistics', 'inventory-stock', 'customer-support', 'marketing-tools', 'security']
+    },
+    {
+      id: 'restaurant-pack',
+      name: 'Restaurant/Food Pack', 
+      emoji: '🍽️',
+      description: 'Perfect for food delivery and restaurant business',
+      components: ['online-shop', 'collect-payments', 'delivery-logistics', 'customer-support', 'inventory-stock', 'bookkeeping-invoices', 'smart-insights']
+    },
+    {
+      id: 'logistics-pack',
+      name: 'Logistics Pack',
+      emoji: '📦',
+      description: 'Complete logistics and delivery solutions',
+      components: ['delivery-logistics', 'collect-payments', 'customer-support', 'mobile-app', 'customer-list', 'staff-management', 'security']
+    }
+  ];
+
+  const selectQuickStartPack = (packId: string) => {
+    const pack = quickStartPacks.find(p => p.id === packId);
+    if (pack) {
+      // Clear existing components first
+      clearComponents();
+      
+      // Add pack components with a small delay for visual effect
+      pack.components.forEach((componentId, index) => {
+        const component = gameConfig.components.find(c => c.id === componentId);
+        if (component) {
+          setTimeout(() => {
+            addComponent(component);
+          }, index * 100);
+        }
+      });
+    }
   };
+
 
 
   const openConsultationModal = (idea: any) => {
@@ -226,7 +267,8 @@ const IdeaBuilder: React.FC = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
-      setActiveShareDropdown(null);
+      setShowHeaderShareDropdown(false);
+      setShowFabShareDropdown(false);
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -702,16 +744,20 @@ const IdeaBuilder: React.FC = () => {
 
   const getComponentIcon = (componentId: string) => {
     const iconMap: { [key: string]: keyof typeof TechIcons } = {
-      // Current component IDs from GameConfig.ts
-      'storefront': 'shopping',
-      'payments': 'payment',
-      'logistics': 'delivery',
-      'chat': 'messaging',
-      'ai-insights': 'ai',
+      // Updated component IDs from GameConfig.ts
+      'online-shop': 'shopping',
+      'collect-payments': 'payment',
+      'delivery-logistics': 'delivery',
+      'customer-support': 'messaging',
+      'smart-insights': 'dataanalytics',
       'mobile-app': 'mobile',
       'cloud-hosting': 'cloud',
-      'cybersecurity': 'cybersecurity',
-      'social-media': 'social'
+      'security': 'cybersecurity',
+      'inventory-stock': 'iot',
+      'bookkeeping-invoices': 'api',
+      'marketing-tools': 'social',
+      'customer-list': 'social',
+      'staff-management': 'social'
     };
 
     const IconComponent = TechIcons[iconMap[componentId] || 'default'];
@@ -763,12 +809,12 @@ const IdeaBuilder: React.FC = () => {
                 fallback={<span className="animate-bounce">🚀</span>}
               />
             </div>
-            <h1 className="logo-text">Your Business Idea, Your Digital Blueprint.</h1>
+            <h1 className="logo-text">From Idea to Business Plan — Instantly</h1>
           </div>
         </div>
-        <p className="tagline">Transform Your Vision Into A Winning Strategy</p>
+        <p className="tagline">Turn Your Idea Into Action That Pays</p>
         <p className="sub-tagline">
-          <span>🚀 Professional Business Blueprints • Powered by AI • Ready in Minutes</span>
+          <span>🚀 AI Business Plans • Fast • Simple • Ready in Minutes</span>
           <div className="header-controls">
             <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
               <span>{gameState.soundEnabled ? '🔊' : '🔇'}</span>
@@ -784,7 +830,7 @@ const IdeaBuilder: React.FC = () => {
       {/* Stats */}
       <div className="stats-grid">
         <div className="stat-card">
-          <div className="stat-label">Community Blueprints Created</div>
+          <div className="stat-label">Plans Created</div>
           <div className="stat-value">
             <span className="stat-icon animate-pulse">
               <LottieIcon 
@@ -798,7 +844,7 @@ const IdeaBuilder: React.FC = () => {
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Solutions Delivered</div>
+          <div className="stat-label">Solutions Built</div>
           <div className="stat-value">
             <span className="stat-icon animate-bounce">
               <LottieIcon 
@@ -812,7 +858,7 @@ const IdeaBuilder: React.FC = () => {
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Success Stories</div>
+          <div className="stat-label">Real Wins</div>
           <div className="stat-value">
             <span className="stat-icon animate-wiggle">
               <LottieIcon 
@@ -857,19 +903,19 @@ const IdeaBuilder: React.FC = () => {
         <ol className="instructions-list">
           <li>
             <span className="instruction-number">1</span>
-            <span>Pick your business challenge</span>
+            <span>Pick the problem you want to solve</span>
           </li>
           <li>
             <span className="instruction-number">2</span>
-            <span>Drag and drop the tools you need</span>
+            <span>Add the tools you need</span>
           </li>
           <li>
             <span className="instruction-number">3</span>
-            <span>Click 'Generate' to see your blueprint</span>
+            <span>Click 'Generate' — your plan is ready</span>
           </li>
           <li>
             <span className="instruction-number">4</span>
-            <span>Download & share your plan</span>
+            <span>Save it & share with your people</span>
           </li>
         </ol>
       </div>
@@ -878,6 +924,30 @@ const IdeaBuilder: React.FC = () => {
       <div className="game-area">
         {/* Components Panel */}
         <div className="components-panel">
+          {/* Quick Start Packs */}
+          <div className="quick-start-section">
+            <h3 className="section-title">
+              <span>⚡</span>
+              <span>Quick Start Packs</span>
+            </h3>
+            <div className="quick-packs-grid">
+              {quickStartPacks.map((pack) => (
+                <div 
+                  key={pack.id}
+                  className="quick-pack-card"
+                  onClick={() => selectQuickStartPack(pack.id)}
+                >
+                  <div className="pack-emoji">{pack.emoji}</div>
+                  <div className="pack-info">
+                    <h4 className="pack-name">{pack.name}</h4>
+                    <p className="pack-description">{pack.description}</p>
+                    <div className="pack-component-count">{pack.components.length} tools</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <h3 className="panel-title">
             <span>🛠️</span>
             <span>Tech Components</span>
@@ -922,7 +992,7 @@ const IdeaBuilder: React.FC = () => {
         <div className="drop-zone-container">
           <h3 className="panel-title">
             <span>🎯</span>
-            <span>Build Your Idea</span>
+            <span>Put Your Idea Together</span>
             {isTouchDevice && <span className="mobile-instruction">(Tap components to add them)</span>}
           </h3>
           <div className="drop-zone-wrapper">
@@ -1009,11 +1079,84 @@ const IdeaBuilder: React.FC = () => {
 
         {/* Results Panel */}
         <div className="results-panel">
-          <h3 className="panel-title">
-            <span>💡</span>
-            <span>Your Business Blueprints</span>
-            <span className="startup-count">({gameState.generatedIdeas.length})</span>
-          </h3>
+          <div className="panel-header-with-share">
+            <h3 className="panel-title">
+              <span>💡</span>
+              <span>Your Business Plan</span>
+              <span className="startup-count">({gameState.generatedIdeas.length})</span>
+            </h3>
+            {/* Desktop Share Button */}
+            {gameState.generatedIdeas.length > 0 && (
+              <div className="desktop-share-button">
+                <button 
+                  className="share-header-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowHeaderShareDropdown(!showHeaderShareDropdown);
+                  }}
+                  title="Share your latest business plan"
+                  aria-label="Share your plan"
+                >
+                  <span className="share-icon">↗</span>
+                  <span>Share</span>
+                </button>
+                
+                {showHeaderShareDropdown && (
+                  <div className="share-dropdown header-dropdown" onClick={(e) => e.stopPropagation()}>
+                    <div className="share-dropdown-header">
+                      <span className="share-dropdown-title">Share Your Plan</span>
+                    </div>
+                    <div className="share-options">
+                      <button 
+                        className="share-option whatsapp" 
+                        onClick={() => {
+                          const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                          shareToWhatsApp(latestIdea.name, latestIdea.executiveSummary);
+                          setShowHeaderShareDropdown(false);
+                        }}
+                      >
+                        <SocialIcons.whatsapp size={18} className="share-platform-icon" />
+                        <span>WhatsApp</span>
+                      </button>
+                      <button 
+                        className="share-option x-twitter" 
+                        onClick={() => {
+                          const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                          shareToTwitter(latestIdea.name, latestIdea.executiveSummary);
+                          setShowHeaderShareDropdown(false);
+                        }}
+                      >
+                        <SocialIcons.x size={18} className="share-platform-icon" />
+                        <span>X</span>
+                      </button>
+                      <button 
+                        className="share-option facebook" 
+                        onClick={() => {
+                          const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                          shareToFacebook(latestIdea.name, latestIdea.executiveSummary);
+                          setShowHeaderShareDropdown(false);
+                        }}
+                      >
+                        <SocialIcons.facebook size={18} className="share-platform-icon" />
+                        <span>Facebook</span>
+                      </button>
+                      <button 
+                        className="share-option instagram" 
+                        onClick={() => {
+                          const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                          shareToInstagram(latestIdea.name, latestIdea.executiveSummary);
+                          setShowHeaderShareDropdown(false);
+                        }}
+                      >
+                        <SocialIcons.instagram size={18} className="share-platform-icon" />
+                        <span>Instagram</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
           <div className="results-scroll-container">
             {gameState.generatedIdeas.length === 0 ? (
               <div className="empty-state">
@@ -1084,69 +1227,6 @@ const IdeaBuilder: React.FC = () => {
                     </div>
                   </div>
                   
-                  <div className="share-dropdown-container">
-                    <button 
-                      className="share-trigger-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleShareDropdown(idea.id);
-                      }}
-                      title="Share this startup"
-                    >
-                      <span className="share-trigger-icon">↗</span>
-                      <span>Share</span>
-                    </button>
-                    
-                    {activeShareDropdown === idea.id && (
-                      <div className="share-dropdown" onClick={(e) => e.stopPropagation()}>
-                        <div className="share-dropdown-header">
-                          <span className="share-dropdown-title">Share {idea.name}</span>
-                        </div>
-                        <div className="share-options">
-                          <button 
-                            className="share-option whatsapp" 
-                            onClick={() => {
-                              shareToWhatsApp(idea.name, idea.executiveSummary);
-                              setActiveShareDropdown(null);
-                            }}
-                          >
-                            <SocialIcons.whatsapp size={18} className="share-platform-icon" />
-                            <span>WhatsApp</span>
-                          </button>
-                          <button 
-                            className="share-option x-twitter" 
-                            onClick={() => {
-                              shareToTwitter(idea.name, idea.executiveSummary);
-                              setActiveShareDropdown(null);
-                            }}
-                          >
-                            <SocialIcons.x size={18} className="share-platform-icon" />
-                            <span>X</span>
-                          </button>
-                          <button 
-                            className="share-option facebook" 
-                            onClick={() => {
-                              shareToFacebook(idea.name, idea.executiveSummary);
-                              setActiveShareDropdown(null);
-                            }}
-                          >
-                            <SocialIcons.facebook size={18} className="share-platform-icon" />
-                            <span>Facebook</span>
-                          </button>
-                          <button 
-                            className="share-option instagram" 
-                            onClick={() => {
-                              shareToInstagram(idea.name, idea.executiveSummary);
-                              setActiveShareDropdown(null);
-                            }}
-                          >
-                            <SocialIcons.instagram size={18} className="share-platform-icon" />
-                            <span>Instagram</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
                 </div>
               ))
             )}
@@ -1258,6 +1338,77 @@ const IdeaBuilder: React.FC = () => {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Mobile FAB Share Button */}
+      {gameState.generatedIdeas.length > 0 && (
+        <div className="mobile-share-fab">
+          <button 
+            className="fab-share-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowFabShareDropdown(!showFabShareDropdown);
+            }}
+            title="Share your business plan"
+            aria-label="Share your plan"
+          >
+            <span className="fab-share-icon">↗</span>
+          </button>
+          
+          {showFabShareDropdown && (
+            <div className="share-dropdown fab-dropdown" onClick={(e) => e.stopPropagation()}>
+              <div className="share-dropdown-header">
+                <span className="share-dropdown-title">Share Your Plan</span>
+              </div>
+              <div className="share-options">
+                <button 
+                  className="share-option whatsapp" 
+                  onClick={() => {
+                    const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                    shareToWhatsApp(latestIdea.name, latestIdea.executiveSummary);
+                    setShowFabShareDropdown(false);
+                  }}
+                >
+                  <SocialIcons.whatsapp size={18} className="share-platform-icon" />
+                  <span>WhatsApp</span>
+                </button>
+                <button 
+                  className="share-option x-twitter" 
+                  onClick={() => {
+                    const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                    shareToTwitter(latestIdea.name, latestIdea.executiveSummary);
+                    setShowFabShareDropdown(false);
+                  }}
+                >
+                  <SocialIcons.x size={18} className="share-platform-icon" />
+                  <span>X</span>
+                </button>
+                <button 
+                  className="share-option facebook" 
+                  onClick={() => {
+                    const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                    shareToFacebook(latestIdea.name, latestIdea.executiveSummary);
+                    setShowFabShareDropdown(false);
+                  }}
+                >
+                  <SocialIcons.facebook size={18} className="share-platform-icon" />
+                  <span>Facebook</span>
+                </button>
+                <button 
+                  className="share-option instagram" 
+                  onClick={() => {
+                    const latestIdea = gameState.generatedIdeas[gameState.generatedIdeas.length - 1];
+                    shareToInstagram(latestIdea.name, latestIdea.executiveSummary);
+                    setShowFabShareDropdown(false);
+                  }}
+                >
+                  <SocialIcons.instagram size={18} className="share-platform-icon" />
+                  <span>Instagram</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
       </div>
