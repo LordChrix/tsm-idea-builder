@@ -20,7 +20,8 @@
       "Bash(npm start)",
       "Bash(git fetch:*)",
       "Bash(npm run lint)",
-      "Bash(/bashes)"
+      "Bash(/bashes)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

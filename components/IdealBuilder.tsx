@@ -813,7 +813,7 @@ const IdeaBuilder: React.FC = () => {
           </div>
         </div>
         <p className="tagline">Turn Your Idea Into Action That Pays</p>
-        <p className="sub-tagline">
+        <div className="sub-tagline">
           <span>🚀 AI Business Plans • Fast • Simple • Ready in Minutes</span>
           <div className="header-controls">
             <button className="sound-toggle" onClick={toggleSound} title="Toggle Sound">
@@ -824,7 +824,7 @@ const IdeaBuilder: React.FC = () => {
               <span>Fresh Start</span>
             </button>
           </div>
-        </p>
+        </div>
       </header>
 
       {/* Stats */}
